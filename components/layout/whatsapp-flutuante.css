@@ -1,0 +1,35 @@
+@layer components {
+  .flutuante {
+    position: fixed;
+    right: 22px;
+    bottom: 22px;
+    z-index: 15;
+    width: 62px;
+    height: 62px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: var(--color-ipe);
+    color: var(--color-profundo);
+    border: 2.5px solid var(--color-profundo);
+    box-shadow: var(--shadow-dura);
+    transition:
+      transform 0.3s var(--ease-saida),
+      opacity 0.3s var(--ease-saida);
+  }
+  .flutuante:hover {
+    transform: translateY(-3px) rotate(-6deg);
+  }
+  .flutuante svg {
+    width: 30px;
+    height: 30px;
+  }
+  @media (max-width: 860px) {
+    .flutuante {
+      right: 14px;
+      bottom: 14px;
+      width: 56px;
+      height: 56px;
+    }
+  }
+}

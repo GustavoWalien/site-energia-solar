@@ -1,0 +1,55 @@
+import { expect, test } from "@playwright/test";
+
+const LINK_AUTOR =
+  "https://wa.me/5565981222210?text=Ol%C3%A1!%20Vi%20o%20site%20conceito%20da%20Ip%C3%AA%20Solar%20e%20quero%20conversar%20sobre%20um%20site%20para%20o%20meu%20neg%C3%B3cio.";
+
+test.describe("WhatsApp no modo conceito", () => {
+  test("o botão flutuante abre o aviso com foco no contato do autor, e o Esc devolve o foco", async ({ page }) => {
+    await page.goto("/");
+    const flutuante = page.locator("#whatsapp-flutuante");
+    await flutuante.click();
+    const aviso = page.getByRole("dialog", { name: "Este é um projeto conceito." });
+    await expect(aviso).toBeVisible();
+    const autor = aviso.getByRole("link", { name: "Falar com quem fez este site" });
+    await expect(autor).toBeFocused();
+    await expect(autor).toHaveAttribute("href", LINK_AUTOR);
+    await page.keyboard.press("Escape");
+    await expect(aviso).toBeHidden();
+    await expect(flutuante).toBeFocused();
+  });
+
+  test("fecha pelo botão de continuar e pelo clique fora da janela", async ({ page }) => {
+    await page.goto("/");
+    const aviso = page.getByRole("dialog");
+    await page.locator("#whatsapp-flutuante").click();
+    await aviso.getByRole("button", { name: "Continuar vendo o site" }).click();
+    await expect(aviso).toBeHidden();
+    await page.locator("#whatsapp-flutuante").click();
+    await expect(aviso).toBeVisible();
+    await page.mouse.click(5, 5);
+    await expect(aviso).toBeHidden();
+  });
+
+  test("com o menu do celular aberto, o WhatsApp fecha o menu e abre o aviso", async ({ page, isMobile }) => {
+    test.skip(!isMobile, "só no celular");
+    await page.goto("/");
+    await page.locator("summary[aria-label='Menu']").click();
+    await page.getByRole("banner").getByRole("link", { name: "Fale no WhatsApp" }).click();
+    await expect(page.getByRole("dialog")).toBeVisible();
+    await expect(page.getByRole("navigation", { name: "Menu" })).toBeHidden();
+  });
+});
+
+test.describe("rodapé", () => {
+  test("mostra horário, cidades e a linha de projeto conceito com o portfólio", async ({ page }) => {
+    await page.goto("/");
+    const rodape = page.getByRole("contentinfo");
+    await expect(rodape).toContainText("Segunda a sexta, 7h às 17h");
+    await expect(rodape).toContainText("Várzea Grande");
+    await expect(rodape).toContainText("Projeto conceito de Gustavo Walien");
+    await expect(rodape.getByRole("link", { name: "Ver portfólio" })).toHaveAttribute(
+      "href",
+      "https://github.com/GustavoWalien",
+    );
+  });
+});

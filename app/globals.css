@@ -1,5 +1,8 @@
 @import "tailwindcss";
 @import "../components/layout/barra-topo.css";
+@import "../components/layout/aviso-conceito.css";
+@import "../components/layout/whatsapp-flutuante.css";
+@import "../components/layout/rodape.css";
 
 /* static: publica todas as variáveis, mesmo as que só aparecem nos .css dos componentes */
 @theme static {

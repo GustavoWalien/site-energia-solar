@@ -1,7 +1,13 @@
 import type { Metadata, Viewport } from "next";
 import { Bricolage_Grotesque, Figtree, JetBrains_Mono } from "next/font/google";
+import { AvisoConceito } from "@/components/layout/AvisoConceito";
 import { BarraTopo } from "@/components/layout/BarraTopo";
+import { Rodape } from "@/components/layout/Rodape";
+import { WhatsappFlutuante } from "@/components/layout/WhatsappFlutuante";
+import { conceito } from "@/content/conceito";
+import { config } from "@/content/config";
 import { empresa } from "@/content/empresa";
+import { destinoWhatsapp } from "@/lib/contato";
 import { SITE_URL } from "@/lib/site";
 import "./globals.css";
 
@@ -33,6 +39,11 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <main id="conteudo" tabIndex={-1}>
           {children}
         </main>
+        <Rodape />
+        <WhatsappFlutuante />
+        {config.modoConceito && (
+          <AvisoConceito textos={conceito.aviso} hrefAutor={destinoWhatsapp(config, empresa).href} />
+        )}
       </body>
     </html>
   );
