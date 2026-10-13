@@ -1,17 +1,9 @@
 import type { NextConfig } from "next";
 
+// O Tailwind entra pelo PostCSS (postcss.config.mjs), como manda a documentação do Next 16.
 const nextConfig: NextConfig = {
-  /* config options here */
   cacheComponents: true,
   partialPrefetching: true,
-  turbopack: {
-    rules: {
-      "*.css": {
-        loaders: ["@tailwindcss/turbopack"],
-        as: "*.css",
-      },
-    },
-  },
 };
 
 export default nextConfig;
