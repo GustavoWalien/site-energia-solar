@@ -1,26 +1,139 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* static: publica todas as variáveis, mesmo as que só aparecem nos .css dos componentes */
+@theme static {
+  --color-ipe: #F5B800;
+  --color-ceu-claro: #D6EEFB;
+  --color-ceu: #3FA2DB;
+  --color-profundo: #0E3557;
+  --color-mata: #1E4D3A;
+  --color-papel: #FAFAF5;
+  --color-tinta-suave: #3B5573;
+  --color-rotulo: #1F6FA8;
+  --color-erro: #B42318;
+
+  --font-display: var(--fonte-display), system-ui, sans-serif;
+  --font-texto: var(--fonte-texto), system-ui, sans-serif;
+  --font-mono: var(--fonte-mono), ui-monospace, monospace;
+
+  --ease-saida: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-meio: cubic-bezier(0.65, 0, 0.35, 1);
+
+  --shadow-dura: 0 5px 0 var(--color-profundo);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  html,
+  body {
+    overflow-x: hidden;
+  }
+  html,
+  body {
+    overflow-x: clip;
+  }
+  html {
+    scroll-padding-top: 88px;
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    background: var(--color-papel);
+    color: var(--color-profundo);
+    font-family: var(--font-texto);
+    font-size: 1.0625rem;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  main {
+    flex: 1;
+  }
+  #conteudo:focus {
+    outline: none;
+  }
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    letter-spacing: -0.02em;
+  }
+  a {
+    color: inherit;
+  }
+  button,
+  input,
+  select,
+  textarea {
+    font: inherit;
+    color: inherit;
+  }
+  /* foco azul no claro; dentro de .escuro, amarelo */
+  :focus-visible {
+    outline: 3px solid var(--color-profundo);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+  .escuro :focus-visible {
+    outline-color: var(--color-ipe);
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer components {
+  .pular {
+    position: absolute;
+    left: -999px;
+    top: 8px;
+    z-index: 50;
+    padding: 10px 14px;
+    border-radius: 8px;
+    background: var(--color-profundo);
+    color: var(--color-papel);
+  }
+  .pular:focus {
+    left: 8px;
+  }
+
+  .botao {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 44px;
+    padding: 12px 20px;
+    border-radius: 999px;
+    font-weight: 600;
+    line-height: 1;
+    text-decoration: none;
+    cursor: pointer;
+    transition:
+      transform 0.3s var(--ease-saida),
+      box-shadow 0.3s var(--ease-saida);
+  }
+  .botao--ipe {
+    background: var(--color-ipe);
+    color: var(--color-profundo);
+    border: 2.5px solid var(--color-profundo);
+    box-shadow: var(--shadow-dura);
+  }
+  .botao--ipe:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 7px 0 var(--color-profundo);
+  }
+  .botao--ipe:active {
+    transform: translateY(3px);
+    box-shadow: 0 2px 0 var(--color-profundo);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
