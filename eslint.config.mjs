@@ -12,6 +12,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Skill de referência, fica fora do app.
+    "site-de-10k/**",
   ]),
 ]);
 

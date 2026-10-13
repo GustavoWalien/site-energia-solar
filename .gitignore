@@ -39,3 +39,12 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# skill de referência (só inspiração, fica fora do repositório)
+/site-de-10k/
+
+# protótipos descartáveis do hero (referência local, fora do repositório)
+/prototipos/
+
+# telas do companheiro visual (brainstorming)
+/.superpowers/
