@@ -1,0 +1,175 @@
+@layer components {
+  .topo {
+    position: fixed;
+    inset: 0 0 auto 0;
+    z-index: 20;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    gap: 26px;
+    padding: 0 max(16px, calc((100vw - 1120px) / 2));
+    border-top: 6px solid var(--color-profundo);
+    background: var(--color-papel);
+    color: var(--color-profundo);
+    box-shadow: 0 2.5px 0 var(--color-profundo);
+    transition:
+      background-color 0.35s var(--ease-saida),
+      color 0.35s var(--ease-saida),
+      box-shadow 0.35s var(--ease-saida);
+  }
+
+  /* a placa pendurada: sem borda em cima, balança ao carregar e no hover */
+  .topo__placa {
+    flex: none;
+    align-self: flex-start;
+    margin-top: -6px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+    padding: 17px 16px 13px;
+    background: var(--color-ipe);
+    color: var(--color-profundo);
+    border: 2.5px solid var(--color-profundo);
+    border-top: 0;
+    border-radius: 0 0 16px 16px;
+    box-shadow: var(--shadow-dura);
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 1.22rem;
+    line-height: 1;
+    letter-spacing: -0.01em;
+    text-decoration: none;
+    transform-origin: 50% 0;
+    animation: placa-balancar 1.5s var(--ease-saida) 0.25s both;
+  }
+  .topo__placa:hover {
+    animation: placa-balancar-de-novo 1s var(--ease-saida);
+  }
+  .topo__flor {
+    width: 26px;
+    height: 26px;
+  }
+
+  .topo__links {
+    display: flex;
+    gap: 26px;
+    margin-left: auto;
+    font-weight: 600;
+  }
+  .topo__links a {
+    padding: 6px 1px;
+    text-decoration: none;
+    background: linear-gradient(currentColor, currentColor) no-repeat 0 100% / 0 2.5px;
+    transition: background-size 0.3s var(--ease-saida);
+  }
+  .topo__links a:hover {
+    background-size: 100% 2.5px;
+  }
+  .topo__chamada {
+    font-size: 0.95rem;
+    padding: 11px 18px;
+  }
+
+  .topo__icone {
+    display: none;
+    width: 44px;
+    height: 44px;
+    place-items: center;
+    border-radius: 12px;
+    border: 2.5px solid currentColor;
+    background: transparent;
+    color: inherit;
+    cursor: pointer;
+    list-style: none;
+  }
+  .topo__icone::-webkit-details-marker {
+    display: none;
+  }
+  .topo__icone svg {
+    width: 20px;
+    height: 20px;
+  }
+  .topo__zap {
+    margin-left: auto;
+    background: var(--color-ipe);
+    border-color: var(--color-profundo);
+    color: var(--color-profundo);
+    box-shadow: 0 3px 0 var(--color-profundo);
+  }
+
+  .topo__menu {
+    display: none;
+  }
+  .topo__painel {
+    position: absolute;
+    top: calc(100% + 10px);
+    left: 16px;
+    right: 16px;
+    display: grid;
+    padding: 8px;
+    background: var(--color-papel);
+    border: 2.5px solid var(--color-profundo);
+    border-radius: 16px;
+    box-shadow: 0 6px 0 var(--color-profundo);
+  }
+  .topo__painel a {
+    padding: 14px 12px;
+    border-radius: 10px;
+    color: var(--color-profundo);
+    font-weight: 600;
+    text-decoration: none;
+  }
+  .topo__painel a:hover {
+    background: var(--color-ceu-claro);
+  }
+
+  @media (max-width: 860px) {
+    .topo {
+      height: 58px;
+      gap: 10px;
+    }
+    /* .topo na frente: precisa vencer o display do .botao, que vem depois no globals.css */
+    .topo .topo__links,
+    .topo .topo__chamada {
+      display: none;
+    }
+    .topo__icone {
+      display: grid;
+    }
+    .topo__menu {
+      display: block;
+    }
+    .topo__placa {
+      font-size: 1.05rem;
+      padding: 14px 12px 11px;
+      gap: 6px;
+    }
+    .topo__flor {
+      width: 22px;
+      height: 22px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .topo__placa,
+    .topo__placa:hover {
+      animation: none;
+    }
+  }
+}
+
+@keyframes placa-balancar {
+  0% { transform: rotate(6deg); }
+  28% { transform: rotate(-4deg); }
+  52% { transform: rotate(2.2deg); }
+  76% { transform: rotate(-1deg); }
+  100% { transform: rotate(0); }
+}
+@keyframes placa-balancar-de-novo {
+  0% { transform: rotate(0); }
+  25% { transform: rotate(-3deg); }
+  55% { transform: rotate(1.6deg); }
+  80% { transform: rotate(-0.6deg); }
+  100% { transform: rotate(0); }
+}

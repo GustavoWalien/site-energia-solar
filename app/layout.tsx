@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Bricolage_Grotesque, Figtree, JetBrains_Mono } from "next/font/google";
+import { BarraTopo } from "@/components/layout/BarraTopo";
 import { empresa } from "@/content/empresa";
 import { SITE_URL } from "@/lib/site";
 import "./globals.css";
@@ -28,6 +29,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <a className="pular" href="#conteudo">
           Pular para o conteúdo
         </a>
+        <BarraTopo />
         <main id="conteudo" tabIndex={-1}>
           {children}
         </main>
