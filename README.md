@@ -10,7 +10,7 @@ Site de uma empresa fictícia de energia solar em Cuiabá-MT. É um projeto conc
 - **Simulador de economia:** do valor da conta de luz para o número de placas e a economia por mês e por ano, com as regras do Fio B de 2026.
 - **4 páginas de serviço**, Sobre, Contato com mapa e um **blog com 3 artigos** em MDX.
 - **Pedido de orçamento** pelo WhatsApp ou pelo formulário, que chega por e-mail pelo Resend.
-- **Pensado para o Google e para o WhatsApp:** canônico, Open Graph, imagem de compartilhamento por página, sitemap, robots e dados estruturados (LocalBusiness, Service, FAQPage, BlogPosting).
+- **Pensado para o Google e para o WhatsApp:** canônico, Open Graph, imagem de compartilhamento do site e uma por artigo, sitemap, robots e dados estruturados (LocalBusiness, Service, FAQPage, BlogPosting).
 - **Modo conceito:** os contatos vão para o autor, e o site avisa que a empresa é fictícia.
 
 ## Stack

@@ -19,7 +19,7 @@ Em `content/config.ts`, troque `modoConceito` para `false`. Com o modo desligado
 
 Para o formulário enviar de verdade:
 - instale a integração do Resend no projeto da Vercel (Marketplace, "Resend"). Ela cria a `RESEND_API_KEY` sozinha;
-- verifique no Resend o domínio do `remetente`, com os registros de DNS que ele pedir.
+- verifique no Resend o domínio do `remetente`, com os registros de DNS que ele pedir. O endereço do `remetente` precisa ser do mesmo domínio verificado no Resend.
 
 O domínio do site vem da variável `NEXT_PUBLIC_SITE_URL` (ex.: `https://empresa.com.br`). Defina-a nas variáveis do projeto na Vercel, para valer no build e também no servidor. A 404 de um endereço que não existe é montada na hora da visita e lê a variável nesse momento.
 

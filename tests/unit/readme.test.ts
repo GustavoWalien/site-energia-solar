@@ -11,6 +11,11 @@ describe("README.md", () => {
     expect(readme).not.toContain("create-next-app");
   });
 
+  it("não promete imagem de compartilhamento própria em toda página (só os artigos têm)", () => {
+    expect(readme).not.toContain("imagem de compartilhamento por página");
+    expect(readme).toContain("uma por artigo");
+  });
+
   it("todo comando npm run citado existe no package.json", () => {
     const citados = [...readme.matchAll(/npm run ([\w:-]+)/g)].map((m) => m[1]);
     expect(citados.length).toBeGreaterThan(3);
@@ -44,5 +49,6 @@ describe("CONTEUDO.md", () => {
     expect(passo1).toContain("RESEND_API_KEY");
     expect(passo1).toContain("NEXT_PUBLIC_SITE_URL");
     expect(passo1).toMatch(/build e (também )?no servidor/);
+    expect(passo1).toContain("mesmo domínio verificado no Resend");
   });
 });
