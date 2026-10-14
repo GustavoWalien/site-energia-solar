@@ -10,7 +10,8 @@ export const empresa: Empresa = {
     descricao:
       "Projeto, instalação e liberação na Energisa para casas, empresas e fazendas em Cuiabá e região. Simule sua economia e peça seu orçamento.",
   },
-  // Empresa fictícia: sem número nem e-mail reais. Preencha os dois ao desligar o modo conceito.
+  // Empresa fictícia: sem número nem e-mail reais. Preencha os dois ao desligar o modo conceito
+  // (o WhatsApp com DDI 55 e DDD, ex.: "55 65 99999-8888").
   whatsapp: "",
   mensagemWhatsapp: "Olá! Quero um orçamento de energia solar.",
   emailPedidos: "",

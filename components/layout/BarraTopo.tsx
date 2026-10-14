@@ -12,7 +12,7 @@ export function BarraTopo() {
     <header className="topo" id="topo">
       <Link className="topo__placa" href="/">
         <Flor className="topo__flor" />
-        {empresa.nome}
+        <span className="topo__nome">{empresa.nome}</span>
       </Link>
       <nav className="topo__links" aria-label="Principal">
         {menu.map((item) => (

@@ -2,7 +2,7 @@ export type LinkMenu = { rotulo: string; href: string };
 
 export type Autor = {
   nome: string;
-  /** Número com DDI e DDD, em qualquer formato. Ex.: "55 65 98122-2210". */
+  /** Número com DDI 55 e DDD, em qualquer formato. Ex.: "55 65 98122-2210". */
   whatsapp: string;
   mensagemWhatsapp: string;
   email: string;
@@ -26,7 +26,7 @@ export type Empresa = {
   estado: string;
   /** Título e descrição padrão (página Início e páginas sem metadados próprios). */
   seo: { titulo: string; descricao: string };
-  /** WhatsApp da empresa. Só é usado com o modo conceito desligado. */
+  /** WhatsApp da empresa, com DDI 55 e DDD, em qualquer formato. Ex.: "55 65 99999-8888". Só é usado com o modo conceito desligado. */
   whatsapp: string;
   mensagemWhatsapp: string;
   /** E-mail que recebe os pedidos. Só é usado com o modo conceito desligado. */

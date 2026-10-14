@@ -16,4 +16,16 @@ describe("whatsappUrl", () => {
     expect(whatsappUrl("")).toBeNull();
     expect(whatsappUrl("12345")).toBeNull();
   });
+
+  it("aceita fixo e celular do Brasil com o DDI 55", () => {
+    expect(whatsappUrl("+55 (65) 3322-1100")).toBe("https://wa.me/556533221100");
+    expect(whatsappUrl("55 65 99999-8888")).toBe("https://wa.me/5565999998888");
+  });
+
+  it("sem o DDI 55 devolve null, em vez de mandar para outro país", () => {
+    // "(65) 99999-8888" viraria wa.me/65..., que o WhatsApp lê como +65 (Singapura)
+    expect(whatsappUrl("(65) 99999-8888")).toBeNull();
+    expect(whatsappUrl("(65) 3322-1100")).toBeNull();
+    expect(whatsappUrl("1 415 555 2671")).toBeNull();
+  });
 });

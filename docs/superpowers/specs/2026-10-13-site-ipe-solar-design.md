@@ -339,7 +339,7 @@ README.md
   - `@next/mdx`, `@mdx-js/loader`, `@mdx-js/react`, `@types/mdx` e `remark-gfm`;
   - `resend`, instalado conforme a skill do provedor depois da integração;
   - para desenvolvimento, `vitest` e `@playwright/test`.
-- **Configuração:** o `next.config.ts` mantém `cacheComponents`, `partialPrefetching` e a regra do Tailwind para o Turbopack, e ganha o `createMDX`.
+- **Configuração:** o `next.config.ts` mantém `cacheComponents` e `partialPrefetching`, e ganha o `createMDX`. O Tailwind entra pelo PostCSS (`postcss.config.mjs` com `@tailwindcss/postcss`), como manda a documentação do Next 16. A antiga regra `*.css` do Turbopack (`@tailwindcss/turbopack`) não acompanhava as edições do `globals.css` no `next dev` e foi removida no Plano 1, então ela não deve voltar.
 - **Variáveis de ambiente:**
   - a chave do Resend, que a integração cria (o nome vem da integração, normalmente `RESEND_API_KEY`; o código usa o nome que ela definir);
   - `EMAIL_TRANSPORTE`, só nos testes;

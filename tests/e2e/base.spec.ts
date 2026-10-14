@@ -24,8 +24,15 @@ test("página em português, com um H1 na fonte da marca e link de pular", async
   expect(erros).toEqual([]);
 });
 
-test("sem rolagem lateral", async ({ page }) => {
+test("sem rolagem lateral e nada saindo pela direita da tela", async ({ page }) => {
   await page.goto("/");
   const sobra = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
   expect(sobra).toBeLessThanOrEqual(0);
+  // o body tem overflow-x: clip e a barra é fixa, então o scrollWidth não vê tudo: mede cada elemento visível
+  const vazados = await page.evaluate(() =>
+    [...document.querySelectorAll("body *")]
+      .filter((el) => el.checkVisibility() && el.getBoundingClientRect().right > window.innerWidth + 0.5)
+      .map((el) => el.tagName + (el.className && typeof el.className === "string" ? "." + el.className : "")),
+  );
+  expect(vazados).toEqual([]);
 });

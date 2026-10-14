@@ -51,6 +51,8 @@
     padding-top: 20px;
     border-top: 1.5px solid rgb(214 238 251 / 0.25);
     font-size: 0.92rem;
+    /* deixa livre a faixa do botão flutuante (22 px + 62 px + folga) quando a margem lateral não basta */
+    padding-right: max(0px, calc(100px - max(16px, (100vw - 1120px) / 2)));
   }
   @media (max-width: 860px) {
     .rodape__grade {
@@ -61,8 +63,12 @@
     .rodape__grade {
       grid-template-columns: 1fr;
     }
+    /* no celular o botão fica abaixo do texto: o espaço é embaixo */
     .rodape {
       padding-bottom: 96px;
+    }
+    .rodape__base {
+      padding-right: 0;
     }
   }
 }

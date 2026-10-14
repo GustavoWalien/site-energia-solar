@@ -17,6 +17,13 @@
       transform 0.3s var(--ease-saida),
       opacity 0.3s var(--ease-saida);
   }
+  .flutuante:focus-visible {
+    outline: 3px solid var(--color-profundo);
+    outline-offset: 3px;
+    box-shadow:
+      var(--shadow-dura),
+      0 0 0 6px var(--color-papel);
+  }
   .flutuante:hover {
     transform: translateY(-3px) rotate(-6deg);
   }

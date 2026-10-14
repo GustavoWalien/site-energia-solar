@@ -32,7 +32,10 @@ test.describe("barra do topo", () => {
     const botao = page.locator("summary[aria-label='Menu']");
     await botao.click();
     const painel = page.getByRole("navigation", { name: "Menu" });
-    await expect(painel.getByRole("link", { name: "Contato" })).toBeVisible();
+    const contato = painel.getByRole("link", { name: "Contato" });
+    await expect(contato).toBeVisible();
+    // o foco sai do summary (como quem navega pelo menu com Tab) antes do Esc
+    await contato.focus();
     await page.keyboard.press("Escape");
     await expect(painel).toBeHidden();
     await expect(botao).toBeFocused();

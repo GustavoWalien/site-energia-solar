@@ -20,7 +20,8 @@
 
   /* a placa pendurada: sem borda em cima, balança ao carregar e no hover */
   .topo__placa {
-    flex: none;
+    flex: 0 1 auto;
+    min-width: 0;
     align-self: flex-start;
     margin-top: -6px;
     display: flex;
@@ -47,8 +48,13 @@
     animation: placa-balancar-de-novo 1s var(--ease-saida);
   }
   .topo__flor {
+    flex: none;
     width: 26px;
     height: 26px;
+  }
+  .topo__nome {
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .topo__links {
@@ -73,6 +79,7 @@
 
   .topo__icone {
     display: none;
+    flex: none;
     width: 44px;
     height: 44px;
     place-items: center;
@@ -148,6 +155,22 @@
     .topo__flor {
       width: 22px;
       height: 22px;
+    }
+  }
+
+  /* Androids de 360 px: o nome mais longo do modelo (18 caracteres) ainda cabe inteiro */
+  @media (max-width: 380px) {
+    .topo {
+      gap: 8px;
+    }
+    .topo__placa {
+      font-size: 0.95rem;
+      padding: 14px 10px 11px;
+      gap: 5px;
+    }
+    .topo__flor {
+      width: 20px;
+      height: 20px;
     }
   }
 
