@@ -21,6 +21,15 @@ Em `content/config.ts`, troque `modoConceito` para `false`. Com o modo desligado
 
 As cores ficam no `@theme` de `app/globals.css`: `ipe`, `ceu-claro`, `ceu`, `profundo`, `mata` e `papel`. Depois de trocar, rode `npx vitest run tests/unit/contraste.test.ts`: ele confere se os pares de texto e fundo continuam legíveis (4,5:1).
 
+O amarelo (`#F5B800`) e o azul-profundo (`#0E3557`) ainda aparecem fixos nos desenhos em SVG e nas imagens geradas. Troque também nestes arquivos:
+- `app/icon.svg` e `app/layout.tsx` (a cor da barra do navegador, em `themeColor`);
+- `app/blog/[slug]/opengraph-image.tsx`;
+- `components/blog/Capa.tsx`, `components/contato/MapaDesenhado.tsx` e `components/erro/IlustracaoSombra.tsx`;
+- `components/hero/camadas/Arco.tsx`, `components/hero/camadas/Ave.tsx`, `components/hero/camadas/Casa.tsx`, `components/hero/camadas/Frente.tsx`, `components/hero/camadas/Ipe.tsx` e `components/hero/camadas/Perto.tsx`;
+- `components/inicio/IconePromessa.tsx`, `components/inicio/IconeServico.tsx`, `components/servicos/PaginaServico.tsx` e `components/sobre/Retrato.tsx`.
+
+O teste `tests/unit/guia-conteudo.test.ts` mantém esta lista em dia: se um arquivo novo fixar uma das duas cores, ele pede que o arquivo entre aqui.
+
 ## 3. Textos
 
 Reescreva `content/inicio.ts`, `content/servicos.ts`, `content/equipe.ts`, `content/depoimentos.ts`, `content/perguntas.ts` e `content/paginas.ts`. Guarde a versão de referência de cada texto em `docs/textos.md`.
@@ -39,6 +48,11 @@ Em `content/simulador.ts`, ajuste a tarifa (R$ por kWh com impostos), a taxa mí
 ## 5. Blog
 
 Os artigos ficam em `content/blog/`, um `.mdx` por artigo, e entram no índice `content/blog/index.ts`. Cada um exporta `metadata` com título, título curto para a aba (`tituloSeo`), descrição, data, minutos de leitura, capa e fontes. Para tirar um artigo, apague o arquivo e a linha dele no índice. As capas ilustradas ficam em `components/blog/Capa.tsx`.
+
+Ao acrescentar, trocar ou tirar um artigo, atualize também:
+- a lista `ROTAS` e a tabela `TIPOS` de `tests/e2e/seo.spec.ts`;
+- a lista `ROTAS` de `tests/e2e/rotas.spec.ts`;
+- as `PAGINAS` de `scripts/lighthouse.mjs`, se o artigo medido for o que saiu. O mesmo vale para o serviço medido ali.
 
 ## 6. Hero
 
