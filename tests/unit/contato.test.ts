@@ -15,7 +15,7 @@ const empresa: Empresa = {
   frase: "Frase",
   cidade: "Cuiabá",
   estado: "MT",
-  seo: { titulo: "Título", descricao: "Descrição" },
+  seo: { titulo: "Título", descricao: "Descrição", imagemAlt: "Imagem" },
   whatsapp: "55 65 3333-4444",
   mensagemWhatsapp: "Quero um orçamento",
   emailPedidos: "pedidos@empresa.com",

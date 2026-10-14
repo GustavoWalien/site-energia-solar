@@ -7,7 +7,7 @@ import { metadados } from "@/lib/seo";
 
 const t = paginas.contato;
 
-export const metadata = metadados(t.seo);
+export const metadata = metadados(t.seo, { caminho: "/contato" });
 
 export default function Contato() {
   return (

@@ -24,8 +24,8 @@ export type Empresa = {
   frase: string;
   cidade: string;
   estado: string;
-  /** Título e descrição padrão (página Início e páginas sem metadados próprios). */
-  seo: { titulo: string; descricao: string };
+  /** Título e descrição da Início, o título do link compartilhado e o texto alternativo da imagem de compartilhamento. */
+  seo: Seo & { imagemAlt: string };
   /** WhatsApp da empresa, com DDI 55 e DDD, em qualquer formato. Ex.: "55 65 99999-8888". Só é usado com o modo conceito desligado. */
   whatsapp: string;
   mensagemWhatsapp: string;
@@ -104,7 +104,13 @@ export type TextosInicio = {
 export type IconeServico = "casa" | "empresa" | "campo" | "limpeza";
 
 /** Título e descrição de uma página. Com `absoluto`, o título ignora o sufixo " | Ipê Solar" do layout. */
-export type Seo = { titulo: string; descricao: string; absoluto?: boolean };
+export type Seo = {
+  titulo: string;
+  descricao: string;
+  absoluto?: boolean;
+  /** Título do link compartilhado (og:title), quando ele é outro. Sem ele, vale o título da aba. */
+  compartilhamento?: string;
+};
 
 export type BlocoServico = { titulo: string; itens: string[] };
 

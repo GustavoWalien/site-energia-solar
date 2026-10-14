@@ -9,6 +9,8 @@ export const empresa: Empresa = {
     titulo: "Energia solar em Cuiabá",
     descricao:
       "Projeto, instalação e liberação na Energisa para casas, empresas e fazendas em Cuiabá e região. Simule sua economia e peça seu orçamento.",
+    compartilhamento: "Ipê Solar · Energia solar em Cuiabá",
+    imagemAlt: "Ipê Solar, energia solar em Cuiabá: casa com placas solares e um ipê-amarelo sob o sol do meio-dia.",
   },
   // Empresa fictícia: sem número nem e-mail reais. Preencha os dois ao desligar o modo conceito
   // (o WhatsApp com DDI 55 e DDD, ex.: "55 65 99999-8888").

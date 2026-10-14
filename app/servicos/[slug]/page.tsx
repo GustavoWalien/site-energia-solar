@@ -19,7 +19,8 @@ export async function generateMetadata({ params }: PageProps<"/servicos/[slug]">
   const { slug } = await params;
   const servico = servicos.find((s) => s.slug === slug);
   // endereço fora da lista: o notFound() da página mostra a 404, e o título também é o da 404
-  return metadados(servico ? servico.seo : paginas.naoEncontrada.seo);
+  if (!servico) return metadados(paginas.naoEncontrada.seo);
+  return metadados(servico.seo, { caminho: `/servicos/${slug}` });
 }
 
 export default async function Pagina({ params }: PageProps<"/servicos/[slug]">) {

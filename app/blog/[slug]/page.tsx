@@ -22,7 +22,10 @@ export async function generateMetadata({ params }: PageProps<"/blog/[slug]">): P
   const { slug } = await params;
   const artigo = acharArtigo(slug);
   if (!artigo) return metadados(paginas.naoEncontrada.seo);
-  return metadados({ titulo: artigo.metadata.tituloSeo, descricao: artigo.metadata.descricao });
+  return metadados(
+    { titulo: artigo.metadata.tituloSeo, descricao: artigo.metadata.descricao },
+    { caminho: `/blog/${slug}`, artigo: { publicado: artigo.metadata.data } },
+  );
 }
 
 export default async function PaginaArtigo({ params }: PageProps<"/blog/[slug]">) {

@@ -89,6 +89,7 @@ Os botões de WhatsApp não abrem conversa com uma empresa que não existe. Em v
 - Título: `Energia solar em Cuiabá | Ipê Solar`
 - Descrição: `Projeto, instalação e liberação na Energisa para casas, empresas e fazendas em Cuiabá e região. Simule sua economia e peça seu orçamento.`
 - Texto do link no WhatsApp: `Ipê Solar · Energia solar em Cuiabá`. A imagem é a cena do meio-dia do hero.
+- Texto alternativo da imagem de compartilhamento: `Ipê Solar, energia solar em Cuiabá: casa com placas solares e um ipê-amarelo sob o sol do meio-dia.`
 
 ### Hero (três momentos do scroll)
 
