@@ -9,7 +9,7 @@ export const perguntas: Pergunta[] = [
   {
     pergunta: "Minha conta vai zerar?",
     resposta:
-      "Não. Mesmo com energia solar, a Energisa cobra a taxa mínima, a iluminação pública e o Fio B. O que some é a maior parte do valor que você paga hoje pelo consumo.",
+      "Não. Mesmo com energia solar, continuam na conta a iluminação pública e o Fio B sobre a energia que vai para a rede e volta. A taxa mínima só entra nos meses em que a casa puxa da rede menos do que o mínimo da ligação. O que some é a maior parte do valor que você paga hoje pelo consumo.",
   },
   {
     pergunta: "Funciona em dia nublado e na época das chuvas?",

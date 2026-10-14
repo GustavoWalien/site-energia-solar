@@ -63,6 +63,13 @@ describe("conteúdo da Início", () => {
     expect(formulario.sucessoConceito).toContain("{nome}");
   });
 
+  it("a resposta sobre a conta zerar segue a regra da taxa mínima da Lei 14.300 (art. 16, § 1º)", () => {
+    const zerar = perguntas.find((p) => p.pergunta === "Minha conta vai zerar?")!;
+    // para quem instalou a partir de 2023, a taxa mínima só entra se o consumo puxado da rede ficar abaixo do mínimo
+    expect(zerar.resposta).toContain("A taxa mínima só entra nos meses em que a casa puxa da rede menos do que o mínimo da ligação.");
+    expect(zerar.resposta).not.toContain("cobra a taxa mínima, a iluminação pública e o Fio B");
+  });
+
   it("o formulário tem as opções da spec", () => {
     expect(formulario.opcoesConta).toEqual(["Até R$ 300", "R$ 300 a R$ 600", "R$ 600 a R$ 1.000", "Mais de R$ 1.000"]);
     expect(formulario.opcoesOnde).toEqual(["Casa", "Empresa", "Fazenda ou sítio"]);

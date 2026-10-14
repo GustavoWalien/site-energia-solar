@@ -174,7 +174,7 @@ Esta seção responde aos medos mais comuns da pesquisa.
 Vale para a maioria das casas e empresas, mas o retorno ficou um pouco mais longo. Quem instala hoje paga uma parte do uso da rede sobre a energia que manda para a Energisa e usa depois. Essa parte se chama Fio B e, em 2026, está em 60%. A energia que você usa na hora em que as placas geram fica de fora dessa cobrança. Por isso a gente desenha o sistema para você aproveitar o máximo durante o dia.
 
 **Minha conta vai zerar?**
-Não. Mesmo com energia solar, a Energisa cobra a taxa mínima, a iluminação pública e o Fio B. O que some é a maior parte do valor que você paga hoje pelo consumo.
+Não. Mesmo com energia solar, continuam na conta a iluminação pública e o Fio B sobre a energia que vai para a rede e volta. A taxa mínima só entra nos meses em que a casa puxa da rede menos do que o mínimo da ligação. O que some é a maior parte do valor que você paga hoje pelo consumo.
 
 **Funciona em dia nublado e na época das chuvas?**
 Funciona, gerando menos. O sistema é calculado pela média do ano: o que sobra na seca vira crédito e abate a conta dos meses de chuva.
