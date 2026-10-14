@@ -25,6 +25,11 @@ describe("README.md", () => {
     for (const caminho of citados) expect(existsSync(caminho), `${caminho} não existe`).toBe(true);
   });
 
+  it("avisa que, fora de produção, o SDK do Resend escreve o erro inteiro no terminal", () => {
+    expect(readme).toMatch(/fora de produção/);
+    expect(readme).toMatch(/SDK do Resend/);
+  });
+
   it("avisa que o npm run dev com o .env.local envia e-mail de verdade", () => {
     expect(readme).toMatch(/\.env\.local/);
     expect(readme).toMatch(/e-mail de verdade/);

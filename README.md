@@ -29,6 +29,8 @@ npm run dev
 
 Com o `.env.local`, o formulário do `npm run dev` envia e-mail de verdade. Sem ele, o envio falha com um aviso no log.
 
+Atenção: fora de produção, o SDK do Resend escreve no terminal o erro inteiro que a API devolve, e essa mensagem pode trazer um endereço de e-mail. Em produção (`NODE_ENV=production`, como na Vercel) ele não escreve nada, e o log do site leva só o tipo do erro.
+
 ## Testes
 
 ```bash

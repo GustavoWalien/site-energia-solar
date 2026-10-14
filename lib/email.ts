@@ -53,7 +53,8 @@ export type ClienteResend = {
 
 /**
  * Envio pelo Resend (guia: `vercel integration guide resend`). O log leva só o tipo do erro: a mensagem do Resend
- * pode trazer o endereço de e-mail, e dado pessoal não vai para o log.
+ * pode trazer o endereço de e-mail, e dado pessoal não vai para o log. Fora de produção, o próprio SDK escreve o erro
+ * inteiro no console antes de devolvê-lo (logError em node_modules/resend); em produção ele não escreve.
  */
 export function transporteResend(cliente: ClienteResend): Transporte {
   return async (email) => {
