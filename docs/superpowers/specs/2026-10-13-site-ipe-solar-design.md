@@ -366,7 +366,7 @@ README.md
   - Lighthouse 95+ nas quatro notas;
   - página principal visível em menos de 2 s no celular simulado;
   - CLS perto de 0;
-  - no máximo 2% de quadros acima de 33 ms no hero. **Pendente para o Plano 5:** neste ambiente sem GPU (WSL), a medida varia com a carga da máquina. Sozinho, o port fica entre 0,9% e 1,9% acima de 33 ms; depois da bateria inteira, chegou a 6,6%, e o protótipo aprovado, por script, de 2,3% a 3,2%. A meta de 33 ms é conferida no aparelho de verdade, com o site no ar. O teste local vigia a regressão: no máximo 2% acima de 50 ms e, como alarme relativo, no máximo 10% acima de 33 ms.
+  - no máximo 2% de quadros acima de 33 ms no hero. **Pendente para o Plano 6:** neste ambiente sem GPU (WSL), a medida varia com a carga da máquina. Sozinho, o port fica entre 0,9% e 1,9% acima de 33 ms; depois da bateria inteira, chegou a 6,6%, e o protótipo aprovado, por script, de 2,3% a 3,2%. A meta de 33 ms é conferida no aparelho de verdade, com o site no ar. O teste local vigia a regressão: no máximo 2% acima de 50 ms e, como alarme relativo, no máximo 10% acima de 33 ms.
 
 ## 14. Testes
 
