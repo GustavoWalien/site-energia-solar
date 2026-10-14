@@ -8,7 +8,7 @@ test.describe("seções da Início", () => {
     await expect(secao.getByRole("listitem")).toHaveCount(4);
     await secao.getByRole("link", { name: "Energia solar para casa" }).click();
     await expect(page).toHaveURL(/\/servicos\/energia-solar-residencial$/);
-    await expect(page.getByRole("heading", { level: 1 })).toHaveText("Energia solar para casa");
+    await expect(page.getByRole("heading", { level: 1 })).toHaveText("Energia solar para casa em Cuiabá");
   });
 
   test("Como funciona: quatro passos e o caminho do sol que se desenha ao aparecer", async ({ page }) => {

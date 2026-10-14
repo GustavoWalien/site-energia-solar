@@ -1,13 +1,26 @@
-import type { Metadata } from "next";
-import { EmConstrucao } from "@/components/ui/EmConstrucao";
+import { CartaoServico } from "@/components/servicos/CartaoServico";
+import { CabecalhoPagina } from "@/components/ui/CabecalhoPagina";
+import { paginas } from "@/content/paginas";
+import { servicos } from "@/content/servicos";
+import { metadados } from "@/lib/seo";
 
-export const metadata: Metadata = { title: "Serviços" };
+const t = paginas.servicos;
+
+export const metadata = metadados(t.seo);
 
 export default function Servicos() {
   return (
-    <EmConstrucao
-      titulo="Serviços"
-      texto="As páginas de serviço chegam no Plano 3: casa, empresas, campo e limpeza de placas."
-    />
+    <>
+      <CabecalhoPagina rotulo={t.rotulo} titulo={t.titulo} apoio={t.apoio} />
+      <section className="secao" aria-label={t.rotulo}>
+        <div className="secao__miolo">
+          <ul className="fazemos__lista">
+            {servicos.map((s) => (
+              <CartaoServico key={s.slug} servico={s} nivel="h2" />
+            ))}
+          </ul>
+        </div>
+      </section>
+    </>
   );
 }

@@ -1,0 +1,59 @@
+/* Abertura das páginas internas: faixa azul-céu clara com a trilha, o H1 e o texto de apoio. */
+@layer components {
+  .cabecalho {
+    padding: 136px 16px 56px;
+    background: var(--color-ceu-claro);
+    border-bottom: 2.5px solid var(--color-profundo);
+  }
+  .cabecalho__miolo {
+    width: min(1120px, 100%);
+    margin: 0 auto;
+  }
+  .cabecalho__titulo {
+    max-width: 20ch;
+    font-weight: 800;
+    font-size: clamp(2.3rem, 5.4vw, 4.2rem);
+    line-height: 1;
+  }
+  .cabecalho__apoio {
+    max-width: 60ch;
+    margin-top: 18px;
+    font-size: 1.15rem;
+    color: var(--color-tinta-suave);
+  }
+  .trilha ol {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 8px;
+    margin: 0 0 12px;
+    padding: 0;
+    list-style: none;
+    font-size: 0.92rem;
+  }
+  .trilha li {
+    display: inline-flex;
+    align-items: center;
+  }
+  .trilha li + li::before {
+    content: "›";
+    margin-right: 8px;
+    color: var(--color-tinta-suave);
+  }
+  .trilha a,
+  .trilha [aria-current] {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
+  .trilha a {
+    text-underline-offset: 4px;
+  }
+  .trilha [aria-current] {
+    color: var(--color-tinta-suave);
+  }
+  @media (max-width: 860px) {
+    .cabecalho {
+      padding-top: 104px;
+    }
+  }
+}

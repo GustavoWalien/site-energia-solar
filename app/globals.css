@@ -3,6 +3,7 @@
 @import "../components/ui/botao.css";
 @import "../components/ui/secao.css";
 @import "../components/ui/revelar.css";
+@import "../components/ui/cabecalho.css";
 @import "../components/layout/barra-topo.css";
 @import "../components/layout/aviso-conceito.css";
 @import "../components/layout/whatsapp-flutuante.css";
@@ -16,6 +17,7 @@
 @import "../components/inicio/perguntas.css";
 @import "../components/inicio/chamada.css";
 @import "../components/contato/pedido.css";
+@import "../components/servicos/servico.css";
 
 /* static: publica todas as variáveis, mesmo as que só aparecem nos .css dos componentes */
 @theme static {
