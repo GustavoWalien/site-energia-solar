@@ -1,3 +1,5 @@
+import { artigos, type Artigo } from "@/content/blog";
+
 const formato = new Intl.DateTimeFormat("pt-BR", { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" });
 
 /** Do mais novo para o mais antigo, pela data AAAA-MM-DD do metadata. */
@@ -19,4 +21,10 @@ export function contarPalavras(fonte: string): number {
     .replace(/^\|?\s*-{3}.*$/gm, " ")
     .replace(/[#*|>_`-]/g, " ");
   return texto.split(/\s+/).filter((palavra) => /[\p{L}\p{N}]/u.test(palavra)).length;
+}
+
+export const artigosOrdenados = ordenarPorData(artigos);
+
+export function acharArtigo(slug: string): Artigo | undefined {
+  return artigos.find((a) => a.slug === slug);
 }
