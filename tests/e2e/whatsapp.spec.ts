@@ -5,7 +5,7 @@ const LINK_AUTOR =
 
 test.describe("WhatsApp no modo conceito", () => {
   test("o botão flutuante abre o aviso com foco no contato do autor, e o Esc devolve o foco", async ({ page }) => {
-    await page.goto("/");
+    await page.goto("/sobre");
     const flutuante = page.locator("#whatsapp-flutuante");
     // clique que não move o foco, como no Safari: quem devolve o foco é o próprio aviso
     await flutuante.dispatchEvent("click");
@@ -20,7 +20,7 @@ test.describe("WhatsApp no modo conceito", () => {
   });
 
   test("fecha pelo botão de continuar e pelo clique fora da janela", async ({ page }) => {
-    await page.goto("/");
+    await page.goto("/sobre");
     const aviso = page.getByRole("dialog");
     await page.locator("#whatsapp-flutuante").click();
     await aviso.getByRole("button", { name: "Continuar vendo o site" }).click();

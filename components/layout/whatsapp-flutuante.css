@@ -15,7 +15,8 @@
     box-shadow: var(--shadow-dura);
     transition:
       transform 0.3s var(--ease-saida),
-      opacity 0.3s var(--ease-saida);
+      opacity 0.3s var(--ease-saida),
+      visibility 0.3s;
   }
   .flutuante:focus-visible {
     outline: 3px solid var(--color-profundo);
@@ -31,6 +32,15 @@
     width: 30px;
     height: 30px;
   }
+  /* Na Início, com JavaScript: só aparece depois do hero (o MotorDoHero liga flutuante--visivel). */
+  @media (scripting: enabled) {
+    body:has(.hero:not([style*="display: none"])) .flutuante:not(.flutuante--visivel) {
+      visibility: hidden;
+      opacity: 0;
+      transform: translateY(16px) scale(0.9);
+    }
+  }
+
   @media (max-width: 860px) {
     .flutuante {
       right: 14px;

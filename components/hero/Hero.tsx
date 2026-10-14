@@ -10,6 +10,7 @@ import { Nuvens } from "./camadas/Nuvens";
 import { Perto } from "./camadas/Perto";
 import { Sol } from "./camadas/Sol";
 import { Faixa } from "./Faixa";
+import { MotorDoHero } from "./MotorDoHero";
 
 const t = inicio.hero;
 
@@ -19,6 +20,7 @@ export function Hero() {
   return (
     <section className="hero" id="hero" aria-labelledby="hero-titulo">
       <div className="hero__palco" id="hero-palco">
+        <MotorDoHero />
         <div className="hero__cena">
           <Ceu />
           <Arco />

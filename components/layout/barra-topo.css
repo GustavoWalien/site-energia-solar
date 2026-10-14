@@ -134,6 +134,23 @@
     background: var(--color-ceu-claro);
   }
 
+  /* Na Início, com JavaScript: transparente sobre o céu do hero. O MotorDoHero liga topo--sobre-claro e topo--solida.
+     O Next guarda a Início escondida (display: none) ao navegar para outra página: esse hero não conta. */
+  @media (scripting: enabled) {
+    body:has(.hero:not([style*="display: none"])) .topo:not(.topo--solida) {
+      background: transparent;
+      box-shadow: none;
+      color: var(--color-papel);
+    }
+    body:has(.hero:not([style*="display: none"])) .topo--sobre-claro:not(.topo--solida) {
+      color: var(--color-profundo);
+    }
+    body:has(.hero:not([style*="display: none"])) .topo:not(.topo--solida, .topo--sobre-claro)
+      :is(.topo__placa, .topo__links a, .topo__chamada, .topo__icone):focus-visible {
+      outline-color: var(--color-ipe);
+    }
+  }
+
   @media (max-width: 860px) {
     .topo {
       height: 58px;

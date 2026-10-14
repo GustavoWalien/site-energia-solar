@@ -502,6 +502,13 @@
       display: none;
     }
   }
+
+  /* no retrato, o servidor não sabe o enquadramento: a cena surge quando o motor o aplica */
+  @media (scripting: enabled) and (max-aspect-ratio: 1/1) {
+    .hero:not(.hero--pronto) .hero__cena {
+      opacity: 0;
+    }
+  }
 }
 
 @keyframes hero-cintilar {

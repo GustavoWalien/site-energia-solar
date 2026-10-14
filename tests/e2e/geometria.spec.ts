@@ -17,7 +17,7 @@ test.describe("geometria", () => {
   ]) {
     test(`em ${largura} px, o botão flutuante não cobre o "Ver portfólio"`, async ({ page }) => {
       await page.setViewportSize({ width: largura, height: altura });
-      await page.goto("/");
+      await page.goto("/sobre");
       await page.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight));
       const link = page.getByRole("contentinfo").getByRole("link", { name: "Ver portfólio" });
       const coberto = await link.evaluate((el) => {
@@ -40,7 +40,7 @@ test.describe("geometria", () => {
   ] as const) {
     test(`em ${largura} px, "${nome}" deixa os ícones inteiros e dentro da tela`, async ({ page }) => {
       await page.setViewportSize({ width: largura, height: 740 });
-      await page.goto("/");
+      await page.goto("/sobre");
       await nomeLongo(page, nome);
       const medidas = await page.evaluate(() =>
         [...document.querySelectorAll<HTMLElement>(".topo .topo__icone")].map((el) => {
@@ -68,7 +68,7 @@ test.describe("geometria", () => {
   }
 
   test("o foco do botão flutuante aparece também sobre o rodapé azul", async ({ page }) => {
-    await page.goto("/");
+    await page.goto("/sobre");
     await page.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight));
     await page.keyboard.press("Tab");
     await page.locator("#whatsapp-flutuante").focus();
