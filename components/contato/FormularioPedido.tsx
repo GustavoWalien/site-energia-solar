@@ -17,10 +17,11 @@ export function FormularioPedido() {
   const carimbo = useRef<HTMLInputElement>(null);
   const apareceu = useRef(0);
 
-  // O carimbo guarda a hora em que o formulário apareceu, e não a do último envio: quem corrige um erro e
-  // reenvia logo em seguida não pode parecer robô. O React limpa o formulário depois de cada envio.
+  // O carimbo guarda a hora em que a página começou a carregar (performance.timeOrigin): é antes de o formulário
+  // aparecer, mesmo num celular lento em que a pessoa preenche tudo enquanto o JavaScript chega. Quem corrige um
+  // erro e reenvia logo em seguida também não parece robô. O React limpa o formulário depois de cada envio.
   useEffect(() => {
-    if (!apareceu.current) apareceu.current = Date.now();
+    if (!apareceu.current) apareceu.current = Math.round(performance.timeOrigin);
     if (carimbo.current) carimbo.current.value = String(apareceu.current);
   }, [estado]);
 
