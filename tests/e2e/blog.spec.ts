@@ -62,6 +62,21 @@ test.describe("blog", () => {
     expect(resposta!.status()).toBe(404);
     await expect(page).toHaveTitle("Página não encontrada | Ipê Solar");
   });
+
+  for (const [slug] of ARTIGOS) {
+    test(`/blog/${slug}: imagem de compartilhamento própria, PNG de 1200 × 630`, async ({ page, request }) => {
+      await page.goto(`/blog/${slug}`);
+      const og = await page.locator('meta[property="og:image"]').getAttribute("content");
+      expect(og).toContain(`/blog/${slug}/opengraph-image`);
+      const endereco = new URL(og!);
+      const imagem = await request.get(endereco.pathname + endereco.search);
+      expect(imagem.status()).toBe(200);
+      expect(imagem.headers()["content-type"]).toBe("image/png");
+      const png = await imagem.body();
+      expect(png.readUInt32BE(16)).toBe(1200);
+      expect(png.readUInt32BE(20)).toBe(630);
+    });
+  }
 });
 
 test.describe("blog sem JavaScript", () => {
