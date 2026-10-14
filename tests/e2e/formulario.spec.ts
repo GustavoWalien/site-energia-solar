@@ -10,11 +10,9 @@ async function formulario(page: Page) {
   return form;
 }
 
-/** Recua o carimbo de tempo, para o envio não parecer de robô (menos de 3 s). */
+/** Espera a página completar 3 s: o formulário manda o tempo de página, e menos que isso parece robô. */
 async function envelhecer(page: Page) {
-  await page.locator('#orcamento input[name="inicio"]').evaluate((el) => {
-    (el as HTMLInputElement).value = String(Date.now() - 10_000);
-  });
+  await page.waitForFunction(() => performance.now() > 3100);
 }
 
 async function preencher(page: Page, nome: string, whatsapp = "(65) 99999-8888") {
@@ -57,9 +55,18 @@ test.describe("formulário de pedido", () => {
     await expect(form.getByLabel("Nome")).toHaveValue("Teste Falha");
   });
 
+  test("envio logo que a página abre parece robô: sucesso falso, sem envio", async ({ page }) => {
+    const form = await formulario(page);
+    await preencher(page, "Teste Falha");
+    expect(await page.evaluate(() => performance.now())).toBeLessThan(3000);
+    await form.getByRole("button", { name: "Quero meu orçamento" }).click();
+    // "Teste Falha" daria o alerta de falha se o pedido fosse enviado; como robô, vem o sucesso falso
+    await expect(page.locator("#orcamento").getByRole("status")).toContainText("Mensagem recebida");
+  });
+
   test("corrigir um erro e reenviar logo em seguida não descarta o pedido como robô", async ({ page }) => {
     const form = await formulario(page);
-    await page.waitForTimeout(3100);
+    await envelhecer(page);
     await preencher(page, "Teste Falha", "123");
     await form.getByRole("button", { name: "Quero meu orçamento" }).click();
     await expect(form).toContainText("Confira o número do WhatsApp, com DDD.");

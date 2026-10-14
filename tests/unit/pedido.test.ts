@@ -68,19 +68,23 @@ describe("validarPedido", () => {
 });
 
 describe("pareceRobo", () => {
-  const agora = 1_000_000;
-
   it("campo armadilha preenchido é robô", () => {
-    expect(pareceRobo({ site: "http://spam.example" }, agora)).toBe(true);
+    expect(pareceRobo({ site: "http://spam.example", tempo: "60000" })).toBe(true);
   });
 
-  it("envio em menos de 3 segundos é robô; com 3 segundos ou mais, não", () => {
-    expect(pareceRobo({ site: "", inicio: String(agora - 2999) }, agora)).toBe(true);
-    expect(pareceRobo({ site: "", inicio: String(agora - 3000) }, agora)).toBe(false);
+  it("envio com menos de 3 segundos de página é robô; com 3 segundos ou mais, não", () => {
+    expect(pareceRobo({ site: "", tempo: "2999" })).toBe(true);
+    expect(pareceRobo({ site: "", tempo: "3000" })).toBe(false);
   });
 
-  it("sem o carimbo (sem JavaScript), só a armadilha vale", () => {
-    expect(pareceRobo({ site: "", inicio: "" }, agora)).toBe(false);
-    expect(pareceRobo({}, agora)).toBe(false);
+  it("o tempo é medido no navegador, sem comparar relógios: relógio adiantado não vira robô", () => {
+    // antes, um carimbo absoluto de um relógio 4 h adiantado contava como "menos de 3 s"
+    expect(pareceRobo({ site: "", inicio: String(Date.now() + 4 * 3600_000), tempo: "45000" })).toBe(false);
+  });
+
+  it("sem o tempo (sem JavaScript), só a armadilha vale; tempo inválido também", () => {
+    expect(pareceRobo({ site: "", tempo: "" })).toBe(false);
+    expect(pareceRobo({})).toBe(false);
+    expect(pareceRobo({ site: "", tempo: "abc" })).toBe(false);
   });
 });

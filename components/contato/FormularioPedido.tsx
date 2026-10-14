@@ -14,16 +14,7 @@ const INICIAL: EstadoPedido = { status: "inicial" };
 export function FormularioPedido() {
   const [estado, enviar, enviando] = useActionState(enviarPedido, INICIAL);
   const form = useRef<HTMLFormElement>(null);
-  const carimbo = useRef<HTMLInputElement>(null);
-  const apareceu = useRef(0);
-
-  // O carimbo guarda a hora em que a página começou a carregar (performance.timeOrigin): é antes de o formulário
-  // aparecer, mesmo num celular lento em que a pessoa preenche tudo enquanto o JavaScript chega. Quem corrige um
-  // erro e reenvia logo em seguida também não parece robô. O React limpa o formulário depois de cada envio.
-  useEffect(() => {
-    if (!apareceu.current) apareceu.current = Math.round(performance.timeOrigin);
-    if (carimbo.current) carimbo.current.value = String(apareceu.current);
-  }, [estado]);
+  const tempo = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (estado.status !== "invalido") return;
@@ -53,7 +44,17 @@ export function FormularioPedido() {
         {enviado && <p>{preencher(config.modoConceito ? t.sucessoConceito : t.sucesso, { nome: estado.nome })}</p>}
       </div>
       {!enviado && (
-        <form key={envio} ref={form} action={enviar} className="pedido" noValidate>
+        <form
+          key={envio}
+          ref={form}
+          action={enviar}
+          // o tempo de página é medido aqui, no envio, sem comparar com o relógio do servidor
+          onSubmit={() => {
+            if (tempo.current) tempo.current.value = String(Math.round(performance.now()));
+          }}
+          className="pedido"
+          noValidate
+        >
           <div className="pedido__campo">
             <label htmlFor="pedido-nome">{t.campos.nome}</label>
             <input
@@ -144,7 +145,7 @@ export function FormularioPedido() {
             <label htmlFor="pedido-site">Site</label>
             <input id="pedido-site" name="site" type="text" tabIndex={-1} autoComplete="off" />
           </div>
-          <input ref={carimbo} type="hidden" name="inicio" defaultValue="" />
+          <input ref={tempo} type="hidden" name="tempo" defaultValue="" />
           {estado.status === "falha" && (
             <p className="pedido__falha" role="alert">
               {t.erros.envio}

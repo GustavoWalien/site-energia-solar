@@ -17,7 +17,7 @@ const valido = {
   onde: "Casa",
   mensagem: "",
   site: "",
-  inicio: String(Date.now() - 10_000),
+  tempo: "10000",
 };
 
 describe("enviarPedido", () => {
@@ -46,7 +46,7 @@ describe("enviarPedido", () => {
   it("robô recebe sucesso falso, sem envio (com “Teste Falha”, o envio daria falha)", async () => {
     const armadilha = await enviarPedido(INICIAL, dados({ ...valido, nome: "Teste Falha", site: "spam" }));
     expect(armadilha.status).toBe("enviado");
-    const rapido = await enviarPedido(INICIAL, dados({ ...valido, nome: "Teste Falha", inicio: String(Date.now()) }));
+    const rapido = await enviarPedido(INICIAL, dados({ ...valido, nome: "Teste Falha", tempo: "500" }));
     expect(rapido.status).toBe("enviado");
   });
 });

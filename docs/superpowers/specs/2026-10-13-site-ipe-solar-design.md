@@ -57,7 +57,7 @@
 | `/blog/[slug]` | 3 artigos: `energia-solar-vale-a-pena-2026-fio-b`, `placas-solares-geram-menos-na-seca` e `creditos-de-energia-energisa` | `content/blog/*.mdx` |
 | 404 | "Essa página tomou sombra", com ilustração e link para a Início | código |
 
-Os serviços saíram da raiz (como estava em `docs/textos.md`) e foram para `/servicos/`, para outro cliente poder acrescentar ou tirar serviços só no conteúdo. As rotas dinâmicas usam `generateStaticParams` com `dynamicParams = false`.
+Os serviços saíram da raiz (como estava em `docs/textos.md`) e foram para `/servicos/`, para outro cliente poder acrescentar ou tirar serviços só no conteúdo. As rotas dinâmicas usam `generateStaticParams`. O Next 16 não aceita `dynamicParams` junto com `cacheComponents` (o build recusa), então o endereço fora da lista cai no `notFound()` da própria página e responde 404 (decidido no Plano 2).
 
 ### Barra do topo (placa de loja)
 
@@ -209,7 +209,7 @@ Port do protótipo v4. As constantes do protótipo (faixas de tempo, cores, cami
   | Onde quer instalar | Casa · Empresa · Fazenda ou sítio |
   | Mensagem | Opcional, até 1.000 |
 
-  Há ainda dois campos escondidos: o campo armadilha `site`, que precisa vir vazio, e o carimbo de tempo `inicio`. Como a página é gerada no build, o carimbo é preenchido no navegador quando o formulário aparece. Sem JavaScript, o carimbo fica vazio e só o campo armadilha protege.
+  Há ainda dois campos escondidos: o campo armadilha `site`, que precisa vir vazio, e o tempo de página `tempo`, em milissegundos desde que a página começou a carregar, medido no navegador no momento do envio. O servidor não compara relógios, então um relógio adiantado no computador do visitante não faz o pedido sumir (decidido na revisão do Plano 2). Sem JavaScript, o campo fica vazio e só a armadilha protege.
 - **Fluxo:**
   1. `FormularioPedido` (cliente, `useActionState`) envia para a ação `enviarPedido` em `app/actions/pedido.ts`.
   2. A validação pura fica em `lib/pedido.ts` e devolve os erros por campo, com as mensagens de `docs/textos.md`.
@@ -366,7 +366,7 @@ README.md
   - Lighthouse 95+ nas quatro notas;
   - página principal visível em menos de 2 s no celular simulado;
   - CLS perto de 0;
-  - no máximo 2% de quadros acima de 33 ms no hero.
+  - no máximo 2% de quadros acima de 33 ms no hero. **Pendente para o Plano 5:** neste ambiente sem GPU (WSL), a medida varia com a carga da máquina. Sozinho, o port fica entre 0,9% e 1,9% acima de 33 ms; depois da bateria inteira, chegou a 6,6%, e o protótipo aprovado, por script, de 2,3% a 3,2%. A meta de 33 ms é conferida no aparelho de verdade, com o site no ar. O teste local vigia a regressão: no máximo 2% acima de 50 ms e, como alarme relativo, no máximo 10% acima de 33 ms.
 
 ## 14. Testes
 
@@ -389,7 +389,7 @@ README.md
   - menu do celular;
   - SEO de cada rota: título, descrição, `og:image`, canônico e dados estruturados válidos, além de sitemap, robots e status 404;
   - qualidade: zero erros no console, sem rolagem lateral em 375 e 1440 px, link de pular funcionando;
-  - desempenho: quadros lentos no hero durante uma rolagem roteirizada, só no Chromium.
+  - desempenho: quadros lentos no hero durante uma rolagem roteirizada, só no Chromium, num projeto próprio que roda sozinho depois dos outros (veja a meta na seção 13).
 - **Comando:** `npm run test:all` roda tudo.
 - **Lighthouse:** Início, `/servicos/energia-solar-residencial` e um artigo, no celular e no computador. Os relatórios ficam em `.lighthouse/` (fora do Git), e o print vai para o portfólio.
 

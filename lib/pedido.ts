@@ -42,13 +42,15 @@ export function validarPedido(entrada: Record<string, unknown>, t: TextosFormula
 }
 
 /**
- * Robô: preencheu o campo armadilha `site` ou enviou menos de 3 segundos depois de o formulário aparecer.
- * Sem JavaScript o carimbo `inicio` vem vazio, e só a armadilha vale.
+ * Robô: preencheu o campo armadilha `site` ou enviou com menos de 3 segundos de página.
+ * O `tempo` (milissegundos desde que a página começou a carregar) é medido no navegador, no envio: o servidor
+ * não compara relógios, e um relógio adiantado no computador do visitante não faz o pedido sumir.
+ * Sem JavaScript o `tempo` vem vazio, e só a armadilha vale.
  */
-export function pareceRobo(entrada: Record<string, unknown>, agora: number): boolean {
+export function pareceRobo(entrada: Record<string, unknown>): boolean {
   if (ler(entrada, "site") !== "") return true;
-  const inicio = ler(entrada, "inicio");
-  if (inicio === "") return false;
-  const quando = Number(inicio);
-  return Number.isFinite(quando) && agora - quando < 3000;
+  const tempo = ler(entrada, "tempo");
+  if (tempo === "") return false;
+  const ms = Number(tempo);
+  return Number.isFinite(ms) && ms < 3000;
 }

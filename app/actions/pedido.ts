@@ -27,7 +27,7 @@ function valoresVisiveis(entrada: Record<string, unknown>): Record<string, strin
 export async function enviarPedido(_anterior: EstadoPedido, dados: FormData): Promise<EstadoPedido> {
   const entrada = Object.fromEntries(dados);
   const valores = valoresVisiveis(entrada);
-  if (pareceRobo(entrada, Date.now())) return { status: "enviado", nome: valores.nome.trim() };
+  if (pareceRobo(entrada)) return { status: "enviado", nome: valores.nome.trim() };
 
   const resultado = validarPedido(entrada, formulario);
   // envio: cada resposta tem um número novo, e o formulário se remonta com os valores devolvidos
