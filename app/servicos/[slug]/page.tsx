@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import { PaginaServico } from "@/components/servicos/PaginaServico";
+import { paginas } from "@/content/paginas";
 import { servicos } from "@/content/servicos";
 import { metadados } from "@/lib/seo";
 
@@ -13,7 +14,8 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: PageProps<"/servicos/[slug]">): Promise<Metadata> {
   const { slug } = await params;
   const servico = servicos.find((s) => s.slug === slug);
-  return servico ? metadados(servico.seo) : {};
+  // endereço fora da lista: o notFound() da página mostra a 404, e o título também é o da 404
+  return metadados(servico ? servico.seo : paginas.naoEncontrada.seo);
 }
 
 /** Lê o endereço dentro do Suspense: o App Shell (barra e rodapé) fica igual para todo link e chega na hora. */

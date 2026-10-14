@@ -1,0 +1,41 @@
+@layer components {
+  .nao-encontrada {
+    padding: 140px 16px 96px;
+  }
+  .nao-encontrada__miolo {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    align-items: center;
+    width: min(1120px, 100%);
+    margin: 0 auto;
+  }
+  .nao-encontrada__desenho {
+    width: 100%;
+    max-width: 420px;
+    height: auto;
+  }
+  .nao-encontrada__titulo {
+    max-width: 12ch;
+    font-weight: 800;
+    font-size: clamp(2.4rem, 5.6vw, 4.4rem);
+    line-height: 1;
+  }
+  .nao-encontrada__texto {
+    max-width: 40ch;
+    margin: 18px 0 28px;
+    font-size: 1.15rem;
+    color: var(--color-tinta-suave);
+  }
+  @media (max-width: 860px) {
+    .nao-encontrada {
+      padding-top: 104px;
+    }
+    .nao-encontrada__miolo {
+      grid-template-columns: 1fr;
+    }
+    .nao-encontrada__desenho {
+      max-width: 280px;
+    }
+  }
+}
