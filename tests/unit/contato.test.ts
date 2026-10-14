@@ -19,6 +19,7 @@ const empresa: Empresa = {
   whatsapp: "55 65 3333-4444",
   mensagemWhatsapp: "Quero um orçamento",
   emailPedidos: "pedidos@empresa.com",
+  remetente: "",
   horario: [],
   horarioSchema: [],
   cidades: [],

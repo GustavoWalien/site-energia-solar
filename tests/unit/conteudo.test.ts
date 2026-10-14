@@ -16,6 +16,7 @@ describe("conteúdo da empresa", () => {
     if (config.modoConceito) return;
     expect(whatsappUrl(empresa.whatsapp)).not.toBeNull();
     expect(empresa.emailPedidos).toMatch(EMAIL);
+    expect(empresa.remetente).toMatch(EMAIL);
   });
 
   it("o nome cabe na placa do topo (até 18 caracteres)", () => {

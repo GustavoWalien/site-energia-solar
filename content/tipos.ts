@@ -31,6 +31,8 @@ export type Empresa = {
   mensagemWhatsapp: string;
   /** E-mail que recebe os pedidos. Só é usado com o modo conceito desligado. */
   emailPedidos: string;
+  /** Remetente verificado no Resend (ex.: "site@empresa.com.br"). Só é usado com o modo conceito desligado. */
+  remetente: string;
   horario: Horario[];
   /** O mesmo horário no formato do schema.org, ex.: "Mo-Fr 07:00-17:00". */
   horarioSchema: string[];
