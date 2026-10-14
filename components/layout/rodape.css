@@ -18,9 +18,11 @@
     font-weight: 800;
     font-size: 1.4rem;
   }
+  /* no azul, contorno e miolo amarelos (a flor usa currentColor) */
   .rodape__flor {
     width: 28px;
     height: 28px;
+    color: var(--color-ipe);
   }
   .rodape__frase {
     margin-top: 8px;
@@ -57,6 +59,14 @@
   @media (max-width: 860px) {
     .rodape__grade {
       grid-template-columns: 1fr 1fr;
+    }
+    .rodape ul {
+      gap: 0;
+    }
+    .rodape a {
+      display: inline-flex;
+      align-items: center;
+      min-height: 44px;
     }
   }
   @media (max-width: 520px) {

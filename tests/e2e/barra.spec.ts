@@ -24,6 +24,27 @@ test.describe("barra do topo", () => {
     await expect(chamada).toHaveAttribute("data-aviso", "");
   });
 
+  test("a chamada do topo usa o próprio espaçamento, não o do .botao", async ({ page, isMobile }) => {
+    test.skip(isMobile, "só no computador");
+    await page.goto("/sobre");
+    const chamada = page.getByRole("banner").getByRole("link", { name: "Peça seu orçamento" });
+    expect(await chamada.evaluate((el) => getComputedStyle(el).padding)).toBe("11px 18px");
+  });
+
+  test("a placa não repete o balanço de carregamento quando o mouse sai", async ({ page, isMobile }) => {
+    test.skip(isMobile, "só no computador");
+    await page.goto("/sobre");
+    const placa = page.locator(".topo__placa");
+    const rodando = () =>
+      placa.evaluate((el) => el.getAnimations().filter((a) => a.playState === "running").length);
+    await expect.poll(rodando).toBe(0);
+    await placa.hover();
+    await page.waitForTimeout(1100);
+    await page.mouse.move(700, 500);
+    await page.waitForTimeout(150);
+    expect(await rodando()).toBe(0);
+  });
+
   test("no celular: o menu abre, fecha com Esc e devolve o foco", async ({ page, isMobile }) => {
     test.skip(!isMobile, "só no celular");
     await page.goto("/");

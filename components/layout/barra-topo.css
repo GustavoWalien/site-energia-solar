@@ -44,8 +44,11 @@
     transform-origin: 50% 0;
     animation: placa-balancar 1.5s var(--ease-saida) 0.25s both;
   }
+  /* a animação de carregamento continua na lista: assim, quando o mouse sai, ela não recomeça */
   .topo__placa:hover {
-    animation: placa-balancar-de-novo 1s var(--ease-saida);
+    animation:
+      placa-balancar 1.5s var(--ease-saida) 0.25s both,
+      placa-balancar-de-novo 1s var(--ease-saida);
   }
   .topo__flor {
     flex: none;
@@ -136,7 +139,7 @@
       height: 58px;
       gap: 10px;
     }
-    /* .topo na frente: precisa vencer o display do .botao, que vem depois no globals.css */
+    /* .topo na frente: some no celular mesmo sendo um .botao */
     .topo .topo__links,
     .topo .topo__chamada {
       display: none;

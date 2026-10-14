@@ -16,8 +16,8 @@ export const empresa: Empresa = {
   mensagemWhatsapp: "Olá! Quero um orçamento de energia solar.",
   emailPedidos: "",
   horario: [
-    { dias: "Segunda a sexta", horas: "7h às 17h" },
-    { dias: "Sábado", horas: "7h às 11h" },
+    { dias: "Segunda a sexta", horas: "das 7h às 17h" },
+    { dias: "Sábado", horas: "das 7h às 11h" },
   ],
   horarioSchema: ["Mo-Fr 07:00-17:00", "Sa 07:00-11:00"],
   cidades: [

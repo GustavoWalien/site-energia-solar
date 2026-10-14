@@ -1,0 +1,47 @@
+/* .pular e .botao entram antes do CSS dos componentes, para os componentes poderem ajustá-los. */
+@layer components {
+  .pular {
+    position: absolute;
+    left: -999px;
+    top: 8px;
+    z-index: 50;
+    padding: 10px 14px;
+    border-radius: 8px;
+    background: var(--color-profundo);
+    color: var(--color-papel);
+  }
+  .pular:focus {
+    left: 8px;
+  }
+
+  .botao {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 44px;
+    padding: 12px 20px;
+    border-radius: 999px;
+    font-weight: 600;
+    line-height: 1;
+    text-decoration: none;
+    cursor: pointer;
+    transition:
+      transform 0.3s var(--ease-saida),
+      box-shadow 0.3s var(--ease-saida);
+  }
+  .botao--ipe {
+    background: var(--color-ipe);
+    color: var(--color-profundo);
+    border: 2.5px solid var(--color-profundo);
+    box-shadow: var(--shadow-dura);
+  }
+  .botao--ipe:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 7px 0 var(--color-profundo);
+  }
+  .botao--ipe:active {
+    transform: translateY(3px);
+    box-shadow: 0 2px 0 var(--color-profundo);
+  }
+}

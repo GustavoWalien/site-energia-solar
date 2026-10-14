@@ -45,7 +45,7 @@ test.describe("rodapé", () => {
   test("mostra horário, cidades e a linha de projeto conceito com o portfólio", async ({ page }) => {
     await page.goto("/");
     const rodape = page.getByRole("contentinfo");
-    await expect(rodape).toContainText("Segunda a sexta, 7h às 17h");
+    await expect(rodape).toContainText("Segunda a sexta, das 7h às 17h");
     await expect(rodape).toContainText("Várzea Grande");
     await expect(rodape).toContainText("Projeto conceito de Gustavo Walien");
     await expect(rodape.getByRole("link", { name: "Ver portfólio" })).toHaveAttribute(
@@ -53,4 +53,28 @@ test.describe("rodapé", () => {
       "https://github.com/GustavoWalien",
     );
   });
+
+  test("a flor do rodapé tem contorno e miolo visíveis no azul", async ({ page }) => {
+    await page.goto("/sobre");
+    const miolo = page.locator(".rodape__flor circle");
+    expect(await miolo.evaluate((el) => getComputedStyle(el).fill)).toBe("rgb(245, 184, 0)");
+  });
+
+  test("no celular, os links do rodapé têm 44 px de altura", async ({ page, isMobile }) => {
+    test.skip(!isMobile, "só no celular");
+    await page.goto("/sobre");
+    const alturas = await page
+      .getByRole("contentinfo")
+      .getByRole("link")
+      .evaluateAll((els) => els.map((el) => el.getBoundingClientRect().height));
+    expect(alturas.length).toBeGreaterThan(0);
+    for (const altura of alturas) expect(altura).toBeGreaterThanOrEqual(44);
+  });
+});
+
+test("o botão de fechar do aviso usa o papel, não o branco puro", async ({ page }) => {
+  await page.goto("/sobre");
+  await page.locator("#whatsapp-flutuante").click();
+  const fechar = page.getByRole("dialog").getByRole("button", { name: "Fechar aviso" });
+  expect(await fechar.evaluate((el) => getComputedStyle(el).backgroundColor)).toBe("rgb(250, 250, 245)");
 });
