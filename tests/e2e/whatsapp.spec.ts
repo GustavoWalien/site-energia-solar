@@ -65,6 +65,14 @@ test.describe("rodapé", () => {
     );
   });
 
+  test("o link dentro da frase do rodapé é sublinhado, não só de outra cor (Lighthouse: link-in-text-block)", async ({
+    page,
+  }) => {
+    await page.goto("/");
+    const link = page.getByRole("contentinfo").getByRole("link", { name: "Ver portfólio" });
+    await expect(link).toHaveCSS("text-decoration-line", "underline");
+  });
+
   test("a flor do rodapé tem contorno e miolo visíveis no azul", async ({ page }) => {
     await page.goto("/sobre");
     const miolo = page.locator(".rodape__flor circle");

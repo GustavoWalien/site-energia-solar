@@ -44,6 +44,10 @@
     color: var(--color-papel);
     text-underline-offset: 4px;
   }
+  /* o link no meio da frase precisa de mais que a cor para ser visto como link (WCAG 1.4.1) */
+  .rodape__base a {
+    text-decoration-line: underline;
+  }
   .rodape__base {
     display: flex;
     flex-wrap: wrap;
