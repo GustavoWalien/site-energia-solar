@@ -1,0 +1,46 @@
+import { readFileSync } from "node:fs";
+import { describe, expect, it } from "vitest";
+import { acharArtigo } from "@/lib/blog";
+import { entradasSitemap, regrasRobots, rotas } from "@/lib/rotas";
+
+const CLIENTE = "https://cliente.com.br";
+
+describe("rotas, sitemap e robots", () => {
+  it("o sitemap tem as 12 páginas, sem a 404, no domínio recebido", () => {
+    expect(entradasSitemap(CLIENTE).map((e) => e.url)).toEqual([
+      "https://cliente.com.br",
+      "https://cliente.com.br/servicos",
+      "https://cliente.com.br/servicos/energia-solar-residencial",
+      "https://cliente.com.br/servicos/energia-solar-para-empresas",
+      "https://cliente.com.br/servicos/energia-solar-rural",
+      "https://cliente.com.br/servicos/limpeza-de-placas-solares",
+      "https://cliente.com.br/sobre",
+      "https://cliente.com.br/contato",
+      "https://cliente.com.br/blog",
+      "https://cliente.com.br/blog/energia-solar-vale-a-pena-2026-fio-b",
+      "https://cliente.com.br/blog/placas-solares-geram-menos-na-seca",
+      "https://cliente.com.br/blog/creditos-de-energia-energisa",
+    ]);
+  });
+
+  it("os artigos levam a própria data; as outras páginas, nenhuma", () => {
+    const entradas = entradasSitemap(CLIENTE);
+    const fioB = entradas.find((e) => e.url.endsWith("/blog/energia-solar-vale-a-pena-2026-fio-b"))!;
+    expect(fioB.lastModified).toBe(acharArtigo("energia-solar-vale-a-pena-2026-fio-b")!.metadata.data);
+    expect(entradas[0]).not.toHaveProperty("lastModified");
+  });
+
+  it("o robots libera tudo e aponta o sitemap do domínio recebido", () => {
+    expect(regrasRobots(CLIENTE)).toEqual({
+      rules: { userAgent: "*", allow: "/" },
+      sitemap: "https://cliente.com.br/sitemap.xml",
+    });
+  });
+
+  it("toda página do sitemap também passa pelo teste de rotas e pelo teste de SEO", () => {
+    for (const arquivo of ["tests/e2e/rotas.spec.ts", "tests/e2e/seo.spec.ts"]) {
+      const texto = readFileSync(arquivo, "utf8");
+      for (const { caminho } of rotas) expect(texto, `${caminho} falta em ${arquivo}`).toContain(`"${caminho}"`);
+    }
+  });
+});

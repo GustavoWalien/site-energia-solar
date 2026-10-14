@@ -70,3 +70,21 @@ test("endereço que não existe: 404 sem canônico e sem og:url", async ({ page 
     await expect(page.locator('meta[property="og:url"]')).toHaveCount(0);
   }
 });
+
+test("sitemap.xml com as 12 páginas e robots.txt apontando para ele", async ({ request }) => {
+  const sitemap = await request.get("/sitemap.xml");
+  expect(sitemap.status()).toBe(200);
+  const xml = await sitemap.text();
+  const enderecos = [...xml.matchAll(/<loc>(.*?)<\/loc>/g)].map((m) => m[1]);
+  expect(enderecos).toHaveLength(12);
+  expect(enderecos).toContain(`${SITE}/blog/energia-solar-vale-a-pena-2026-fio-b`);
+  expect(enderecos.some((e) => e.includes("nao-existe"))).toBe(false);
+  expect(xml).toMatch(/<lastmod>\d{4}-\d{2}-\d{2}/);
+
+  const robots = await request.get("/robots.txt");
+  expect(robots.status()).toBe(200);
+  const texto = await robots.text();
+  expect(texto).toMatch(/user-agent: \*/i);
+  expect(texto).toMatch(/allow: \//i);
+  expect(texto).toContain(`Sitemap: ${SITE}/sitemap.xml`);
+});
