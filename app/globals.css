@@ -19,6 +19,8 @@
 @import "../components/contato/pedido.css";
 @import "../components/servicos/servico.css";
 @import "../components/sobre/sobre.css";
+@import "../components/contato/contato.css";
+@import "../components/contato/mapa.css";
 
 /* static: publica todas as variáveis, mesmo as que só aparecem nos .css dos componentes */
 @theme static {

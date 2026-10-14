@@ -1,0 +1,51 @@
+@layer components {
+  .contato {
+    padding: clamp(56px, 8vw, 96px) 16px;
+  }
+  .contato__miolo {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 40px;
+    align-items: start;
+    width: min(1120px, 100%);
+    margin: 0 auto;
+  }
+  .contato__blocos {
+    display: grid;
+    gap: 16px;
+  }
+  .contato__bloco {
+    padding: 22px;
+    border: 2.5px solid var(--color-profundo);
+    border-radius: 20px;
+    background: var(--color-papel);
+  }
+  .contato__titulo {
+    margin-bottom: 8px;
+    font-weight: 800;
+    font-size: 1.3rem;
+  }
+  .contato__bloco p,
+  .contato__bloco ul {
+    color: var(--color-tinta-suave);
+  }
+  .contato__bloco ul {
+    padding: 0;
+    list-style: none;
+  }
+  .contato__bloco .botao {
+    margin-top: 14px;
+  }
+  .contato__bloco a[href^="tel:"] {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    font-weight: 600;
+    color: var(--color-profundo);
+  }
+  @media (max-width: 860px) {
+    .contato__miolo {
+      grid-template-columns: 1fr;
+    }
+  }
+}

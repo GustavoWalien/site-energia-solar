@@ -9,7 +9,14 @@ vi.mock("@/content/config", async (original) => {
 });
 vi.mock("@/content/empresa", async (original) => {
   const { empresa } = await original<typeof import("@/content/empresa")>();
-  return { empresa: { ...empresa, whatsapp: "55 65 99999-8888", emailPedidos: "pedidos@exemplo.com.br" } };
+  return {
+    empresa: {
+      ...empresa,
+      whatsapp: "55 65 99999-8888",
+      emailPedidos: "pedidos@exemplo.com.br",
+      telefone: "(65) 3322-1100",
+    },
+  };
 });
 vi.mock("next/link", () => ({
   default: ({ href, children }: { href: string; children: ReactNode }) => <a href={href}>{children}</a>,
@@ -38,5 +45,13 @@ describe("modo conceito desligado", () => {
     expect(html).toContain("https://wa.me/5565999998888?text=");
     expect(html).toContain(encodeURIComponent("Minha conta de luz fica em torno de R$ 450."));
     expect(html).not.toContain("data-aviso");
+  });
+
+  it("a Contato mostra o telefone da empresa com o link tel: certo", async () => {
+    const { BlocosContato } = await import("@/components/contato/BlocosContato");
+    const html = renderToStaticMarkup(<BlocosContato />);
+    expect(html).toContain("Telefone");
+    expect(html).toContain('href="tel:+556533221100"');
+    expect(html).toContain("(65) 3322-1100");
   });
 });

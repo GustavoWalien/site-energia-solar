@@ -1,10 +1,25 @@
-import type { Metadata } from "next";
-import { EmConstrucao } from "@/components/ui/EmConstrucao";
+import { BlocosContato } from "@/components/contato/BlocosContato";
+import { Mapa } from "@/components/contato/Mapa";
+import { ChamadaFinal } from "@/components/inicio/ChamadaFinal";
+import { CabecalhoPagina } from "@/components/ui/CabecalhoPagina";
+import { paginas } from "@/content/paginas";
+import { metadados } from "@/lib/seo";
 
-export const metadata: Metadata = { title: "Contato" };
+const t = paginas.contato;
+
+export const metadata = metadados(t.seo);
 
 export default function Contato() {
   return (
-    <EmConstrucao titulo="Contato" texto="O mapa, o horário e o formulário de contato chegam no Plano 3." />
+    <>
+      <CabecalhoPagina titulo={t.titulo} apoio={t.apoio} />
+      <section className="contato" aria-label={t.blocosRotulo}>
+        <div className="contato__miolo">
+          <BlocosContato />
+          <Mapa />
+        </div>
+      </section>
+      <ChamadaFinal />
+    </>
   );
 }
