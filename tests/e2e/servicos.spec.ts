@@ -37,3 +37,15 @@ test.describe("serviços", () => {
     });
   }
 });
+
+test.describe("serviços sem JavaScript", () => {
+  test.use({ javaScriptEnabled: false });
+
+  test("a página de um serviço vem inteira no HTML, com o H1 e o formulário", async ({ page }) => {
+    await page.goto("/servicos/energia-solar-rural");
+    await expect(page.getByRole("heading", { level: 1 })).toHaveText("Energia solar para fazenda e sítio");
+    await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+    await expect(page.locator("#orcamento form")).toBeVisible();
+    await expect(page.locator('[aria-busy="true"]')).toHaveCount(0);
+  });
+});

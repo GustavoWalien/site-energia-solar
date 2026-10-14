@@ -27,6 +27,9 @@ test.describe("Contato", () => {
     await page.setViewportSize({ width: 375, height: 400 });
     await page.goto("/contato");
     const quadro = page.locator(".mapa__quadro");
+    // espera o mapa começar a observar a tela: antes disso, "sem iframe" seria verdade por acaso
+    await expect(quadro).toHaveAttribute("data-observando", "");
+    await page.waitForTimeout(300);
     await expect(quadro.locator("iframe")).toHaveCount(0);
     const antes = (await quadro.boundingBox())!.height;
     await quadro.scrollIntoViewIfNeeded();

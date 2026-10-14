@@ -30,7 +30,12 @@ export function Mapa() {
       { rootMargin: "300px" },
     );
     observador.observe(el);
-    return () => observador.disconnect();
+    // sinal de que o mapa já está observando a tela (o teste do carregamento preguiçoso espera por ele)
+    el.dataset.observando = "";
+    return () => {
+      observador.disconnect();
+      delete el.dataset.observando;
+    };
   }, []);
 
   return (
