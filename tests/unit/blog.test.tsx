@@ -61,4 +61,13 @@ describe("artigos do blog", () => {
     }
     expect(html).toContain('class="simulador"');
   });
+
+  it("o artigo do Fio B segue as datas da Lei 14.300 (art. 26, II e art. 27, § 2º)", () => {
+    const texto = fonte("energia-solar-vale-a-pena-2026-fio-b");
+    expect(texto).toContain("a partir de 8 de janeiro de 2023");
+    expect(texto).toContain("até 7 de janeiro de 2023");
+    expect(texto).toContain("entre janeiro e julho de 2023");
+    expect(texto).toContain("só chega em 2031");
+    expect(texto).not.toContain("Até 2022, essa ida e volta não pagava nada");
+  });
 });
