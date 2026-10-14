@@ -221,10 +221,10 @@ Port do protótipo v4. As constantes do protótipo (faixas de tempo, cores, cami
 - **E-mail:**
   - assunto "Pedido de orçamento: {nome} ({onde})", corpo em texto simples com todos os campos e o endereço do site;
   - destino: o e-mail do autor no modo conceito, o da empresa fora dele;
-  - remetente: `onboarding@resend.dev` no modo conceito (o Resend sem domínio verificado só entrega para o dono da conta, que é o autor); para cliente real, um domínio verificado;
+  - remetente: no modo conceito, `Ipê Solar (projeto conceito) <site@gustavowalien.com>`, do domínio do autor verificado no Resend em 14/10/2026 (decidido no Plano 6; o `onboarding@resend.dev` só entrega para o dono da conta do Resend); para cliente real, um domínio verificado dele;
   - o código do Resend segue a skill do provedor que a integração instala, sem escrever de memória;
   - dados pessoais nunca vão para o log.
-- **Testes:** com `EMAIL_TRANSPORTE=teste`, nada sai para a rede. Esse transporte devolve sucesso e simula falha quando o nome é "Teste Falha".
+- **Testes:** com `EMAIL_TRANSPORTE=teste`, nada sai para a rede, mesmo com a chave do Resend presente. Esse transporte devolve sucesso e simula falha quando o nome é "Teste Falha".
 - **Estados na tela:**
   - erros por campo com `aria-invalid` e `aria-describedby`, e foco no primeiro erro;
   - botão "Enviando…" desabilitado;

@@ -7,6 +7,7 @@ const autor: Autor = {
   whatsapp: "55 65 98122-2210",
   mensagemWhatsapp: "Vi o site conceito",
   email: "autor@exemplo.com",
+  remetente: "Site <site@exemplo.com>",
   portfolio: "https://exemplo.com",
 };
 

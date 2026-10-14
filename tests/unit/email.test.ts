@@ -1,7 +1,15 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { config } from "@/content/config";
 import { empresa } from "@/content/empresa";
-import { destinoDoPedido, escolherTransporte, montarEmail, transporteTeste } from "@/lib/email";
+import {
+  destinoDoPedido,
+  escolherTransporte,
+  montarEmail,
+  transporteIndisponivel,
+  transporteResend,
+  transporteTeste,
+  type ClienteResend,
+} from "@/lib/email";
 
 const pedido = {
   nome: "Ana Souza",
@@ -26,8 +34,11 @@ describe("e-mail do pedido", () => {
     expect(email.texto).toContain("https://ipe-solar.vercel.app");
   });
 
-  it("no modo conceito, vai para o autor pelo remetente de teste do Resend", () => {
-    expect(destinoDoPedido(config, empresa)).toEqual({ para: "gustavowalien@gmail.com", de: "onboarding@resend.dev" });
+  it("no modo conceito, vai para o autor pelo remetente do domínio verificado do autor", () => {
+    expect(destinoDoPedido(config, empresa)).toEqual({
+      para: "gustavowalien@gmail.com",
+      de: "Ipê Solar (projeto conceito) <site@gustavowalien.com>",
+    });
   });
 
   it("fora do modo conceito, vai para a empresa pelo remetente dela", () => {
@@ -46,13 +57,72 @@ describe("e-mail do pedido", () => {
     });
   });
 
-  it("sem EMAIL_TRANSPORTE, até o Plano 5, o envio falha e o log não leva dado do pedido", async () => {
+  it("sem chave do Resend, o envio falha e o log não leva dado do pedido", async () => {
     const log = vi.spyOn(console, "error").mockImplementation(() => {});
     const enviar = escolherTransporte({});
+    expect(enviar).toBe(transporteIndisponivel);
     const email = montarEmail(pedido, { para: "a@exemplo.com", de: "b@exemplo.com" }, "https://x");
     expect(await enviar(email)).toEqual({ ok: false });
     expect(log).toHaveBeenCalledOnce();
     expect(JSON.stringify(log.mock.calls)).not.toContain("Ana");
-    expect(escolherTransporte({ EMAIL_TRANSPORTE: "teste" })).toBe(transporteTeste);
+  });
+
+  it("EMAIL_TRANSPORTE=teste vence a chave do Resend: os testes nunca enviam e-mail", () => {
+    expect(escolherTransporte({ EMAIL_TRANSPORTE: "teste", RESEND_API_KEY: "re_teste" })).toBe(transporteTeste);
+  });
+
+  it("com a chave do Resend, o envio vai pelo Resend", () => {
+    const enviar = escolherTransporte({ RESEND_API_KEY: "re_teste" });
+    expect(enviar).not.toBe(transporteTeste);
+    expect(enviar).not.toBe(transporteIndisponivel);
+  });
+});
+
+/** Um cliente do Resend sem rede: guarda o que recebeu e responde como mandarem. */
+function clienteFalso(resposta: () => Promise<{ error: { name?: string; message?: string } | null }>) {
+  const enviados: unknown[] = [];
+  const cliente: ClienteResend = {
+    emails: {
+      send: async (dados) => {
+        enviados.push(dados);
+        return resposta();
+      },
+    },
+  };
+  return { cliente, enviados };
+}
+
+describe("transporte do Resend", () => {
+  afterEach(() => vi.restoreAllMocks());
+  const email = montarEmail(pedido, { para: "autor@exemplo.com", de: "Site <site@exemplo.com>" }, "https://x");
+
+  it("manda remetente, destino, assunto e texto do pedido", async () => {
+    const { cliente, enviados } = clienteFalso(async () => ({ error: null }));
+    expect(await transporteResend(cliente)(email)).toEqual({ ok: true });
+    expect(enviados).toEqual([
+      { from: "Site <site@exemplo.com>", to: ["autor@exemplo.com"], subject: email.assunto, text: email.texto },
+    ]);
+  });
+
+  it("erro do Resend: falha, e o log leva só o tipo do erro, sem o endereço nem o pedido", async () => {
+    const log = vi.spyOn(console, "error").mockImplementation(() => {});
+    const { cliente } = clienteFalso(async () => ({
+      error: { name: "validation_error", message: "You can only send testing emails to autor@exemplo.com" },
+    }));
+    expect(await transporteResend(cliente)(email)).toEqual({ ok: false });
+    const registro = JSON.stringify(log.mock.calls);
+    expect(registro).toContain("validation_error");
+    expect(registro).not.toContain("autor@exemplo.com");
+    expect(registro).not.toContain("Ana");
+  });
+
+  it("Resend fora do ar (exceção de rede): falha sem derrubar a ação e sem dado no log", async () => {
+    const log = vi.spyOn(console, "error").mockImplementation(() => {});
+    const { cliente } = clienteFalso(async () => {
+      throw new Error("fetch failed para autor@exemplo.com");
+    });
+    expect(await transporteResend(cliente)(email)).toEqual({ ok: false });
+    expect(log).toHaveBeenCalledOnce();
+    expect(JSON.stringify(log.mock.calls)).not.toContain("autor@exemplo.com");
   });
 });

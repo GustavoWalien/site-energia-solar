@@ -6,6 +6,8 @@ export type Autor = {
   whatsapp: string;
   mensagemWhatsapp: string;
   email: string;
+  /** Remetente dos pedidos no modo conceito: um endereço do domínio verificado no Resend, com nome. */
+  remetente: string;
   portfolio: string;
 };
 

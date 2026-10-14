@@ -1,3 +1,4 @@
+import { Resend } from "resend";
 import type { Config, Empresa } from "@/content/tipos";
 import type { Pedido } from "./pedido";
 
@@ -21,23 +22,63 @@ export function montarEmail(pedido: Pedido, destino: Destino, siteUrl: string): 
 }
 
 /**
- * Para onde vai o pedido. No modo conceito, para o autor, pelo remetente de teste do Resend (sem domínio
- * verificado, o Resend só entrega para o dono da conta). Fora dele, para a empresa, pelo remetente verificado.
+ * Para onde vai o pedido. No modo conceito, para o autor, pelo remetente do domínio dele verificado no Resend.
+ * Fora dele, para a empresa, pelo remetente verificado dela.
  */
 export function destinoDoPedido(config: Config, empresa: Empresa): Destino {
-  if (config.modoConceito) return { para: config.autor.email, de: "onboarding@resend.dev" };
+  if (config.modoConceito) return { para: config.autor.email, de: config.autor.remetente };
   return { para: empresa.emailPedidos, de: empresa.remetente };
 }
 
 /** Transporte dos testes: nada sai para a rede. "Teste Falha" no assunto simula uma falha. */
 export const transporteTeste: Transporte = async (email) => ({ ok: !email.assunto.includes("Teste Falha") });
 
-/** Até o Plano 5 (integração do Resend pela Vercel), o envio real avisa no log, sem dados do pedido, e falha. */
+/** Sem chave do Resend, o envio avisa no log, sem dados do pedido, e falha. */
 export const transporteIndisponivel: Transporte = async () => {
-  console.error("Envio de e-mail não configurado: a integração do Resend chega no Plano 5.");
+  console.error("Envio de e-mail não configurado: falta RESEND_API_KEY (integração do Resend na Vercel).");
   return { ok: false };
 };
 
+/** O que o transporte usa do SDK do Resend. Os testes passam um cliente falso, sem rede. */
+export type ClienteResend = {
+  emails: {
+    send(dados: {
+      from: string;
+      to: string[];
+      subject: string;
+      text: string;
+    }): Promise<{ error: { name?: string; message?: string } | null }>;
+  };
+};
+
+/**
+ * Envio pelo Resend (guia: `vercel integration guide resend`). O log leva só o tipo do erro: a mensagem do Resend
+ * pode trazer o endereço de e-mail, e dado pessoal não vai para o log.
+ */
+export function transporteResend(cliente: ClienteResend): Transporte {
+  return async (email) => {
+    try {
+      const { error } = await cliente.emails.send({
+        from: email.de,
+        to: [email.para],
+        subject: email.assunto,
+        text: email.texto,
+      });
+      if (error) {
+        console.error(`O Resend recusou o envio do pedido (${error.name ?? "erro sem tipo"}).`);
+        return { ok: false };
+      }
+      return { ok: true };
+    } catch {
+      console.error("Falha de rede ao chamar o Resend: o pedido não foi enviado.");
+      return { ok: false };
+    }
+  };
+}
+
+/** Nos testes, nada sai para a rede. Com a chave da integração, o envio vai pelo Resend. */
 export function escolherTransporte(env: Record<string, string | undefined> = process.env): Transporte {
-  return env.EMAIL_TRANSPORTE === "teste" ? transporteTeste : transporteIndisponivel;
+  if (env.EMAIL_TRANSPORTE === "teste") return transporteTeste;
+  if (env.RESEND_API_KEY) return transporteResend(new Resend(env.RESEND_API_KEY));
+  return transporteIndisponivel;
 }

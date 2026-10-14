@@ -6,7 +6,7 @@ const textos: TextosConceito = {
   aviso: { selo: "s", titulo: "t", texto: "x", botaoAutor: "a", botaoFechar: "f", fecharRotulo: "r" },
   rodape: "Projeto conceito de Autor.",
 };
-const autor = { nome: "Autor", whatsapp: "5565981222210", mensagemWhatsapp: "m", email: "a@b.com", portfolio: "https://exemplo.com" };
+const autor = { nome: "Autor", whatsapp: "5565981222210", mensagemWhatsapp: "m", email: "a@b.com", remetente: "Site <site@exemplo.com>", portfolio: "https://exemplo.com" };
 
 describe("linhaConceito", () => {
   it("no modo conceito devolve o texto e o link do portfólio", () => {
