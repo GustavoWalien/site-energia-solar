@@ -31,4 +31,12 @@ describe("modo conceito desligado", () => {
     expect(html).not.toContain("Projeto conceito");
     expect(html).not.toContain("Ver portfólio");
   });
+
+  it("o simulador leva ao WhatsApp da empresa com o valor da conta", async () => {
+    const { Simulador } = await import("@/components/inicio/Simulador");
+    const html = renderToStaticMarkup(<Simulador />);
+    expect(html).toContain("https://wa.me/5565999998888?text=");
+    expect(html).toContain(encodeURIComponent("Minha conta de luz fica em torno de R$ 450."));
+    expect(html).not.toContain("data-aviso");
+  });
 });

@@ -1,10 +1,12 @@
 @import "tailwindcss";
 /* ordem: o que é comum primeiro, os componentes depois, para os componentes poderem ajustar o comum */
 @import "../components/ui/botao.css";
+@import "../components/ui/secao.css";
 @import "../components/layout/barra-topo.css";
 @import "../components/layout/aviso-conceito.css";
 @import "../components/layout/whatsapp-flutuante.css";
 @import "../components/layout/rodape.css";
+@import "../components/inicio/simulador.css";
 
 /* static: publica todas as variáveis, mesmo as que só aparecem nos .css dos componentes */
 @theme static {

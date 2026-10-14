@@ -1,0 +1,25 @@
+@layer components {
+  .secao {
+    padding: clamp(72px, 10vw, 128px) 16px;
+  }
+  .secao__miolo {
+    width: min(1120px, 100%);
+    margin: 0 auto;
+  }
+  .secao__titulo {
+    max-width: 18ch;
+    font-weight: 800;
+    font-size: clamp(2rem, 4.4vw, 3.4rem);
+    line-height: 1.02;
+  }
+  .rotulo {
+    margin-bottom: 14px;
+    font: 500 0.78rem/1 var(--font-mono);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-rotulo);
+  }
+  .escuro .rotulo {
+    color: var(--color-ipe);
+  }
+}
