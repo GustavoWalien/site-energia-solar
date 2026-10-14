@@ -122,3 +122,15 @@ test.describe("dados estruturados de cada página", () => {
     await expect(page.locator('script[type="application/ld+json"]')).toHaveCount(0);
   });
 });
+
+test("trilha da Sobre e da Contato nos dados estruturados: Início e a página", async ({ page }) => {
+  for (const [rota, nome] of [
+    ["/sobre", "Sobre"],
+    ["/contato", "Contato"],
+  ]) {
+    await page.goto(rota);
+    const blocos = await page.locator('script[type="application/ld+json"]').allTextContents();
+    const trilha = blocos.map((b) => JSON.parse(b)).find((d) => d["@type"] === "BreadcrumbList");
+    expect(trilha.itemListElement.map((i: { name: string }) => i.name)).toEqual(["Início", nome]);
+  }
+});

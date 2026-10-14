@@ -9,6 +9,7 @@ import {
   negocioLocal,
   perguntasFrequentes,
   serializar,
+  telefoneInternacional,
   servicoOferecido,
   trilha,
 } from "@/lib/jsonld";
@@ -36,10 +37,17 @@ describe("dados estruturados", () => {
 
   it("modo desligado: o negócio leva o telefone, ou o WhatsApp quando não há fixo", () => {
     const real = { ...config, modoConceito: false };
-    expect(negocioLocal(real, { ...empresa, telefone: "(65) 3333-4444" }, SITE).telephone).toBe("(65) 3333-4444");
+    expect(negocioLocal(real, { ...empresa, telefone: "(65) 3333-4444" }, SITE).telephone).toBe("+556533334444");
     expect(negocioLocal(real, { ...empresa, telefone: "", whatsapp: "55 65 99999-8888" }, SITE).telephone).toBe(
-      "55 65 99999-8888",
+      "+5565999998888",
     );
+  });
+
+  it("telefone com o código do país, venha o número com ou sem o 55", () => {
+    expect(telefoneInternacional("(65) 3333-4444")).toBe("+556533334444");
+    expect(telefoneInternacional("65 99999-8888")).toBe("+5565999998888");
+    expect(telefoneInternacional("+55 65 99999-8888")).toBe("+5565999998888");
+    expect(telefoneInternacional("5565999998888")).toBe("+5565999998888");
   });
 
   it("perguntas frequentes: uma Question com Answer para cada pergunta", () => {

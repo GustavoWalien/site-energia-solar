@@ -10,9 +10,16 @@ const endereco = (siteUrl: string, caminho: string) => (caminho === "/" ? siteUr
 
 const cidades = (empresa: Empresa) => empresa.cidades.map((nome) => ({ "@type": "City", name: nome }));
 
+/** Telefone no formato internacional (+55, DDD e número, só dígitos), venha ele com ou sem o 55. */
+export function telefoneInternacional(numero: string): string {
+  const digitos = numero.replace(/\D/g, "");
+  return digitos.startsWith("55") && digitos.length >= 12 ? `+${digitos}` : `+55${digitos}`;
+}
+
 /** O negócio. No modo conceito, sem telefone e sem rua: só cidade, estado, país, áreas atendidas e horário. */
 export function negocioLocal(config: Config, empresa: Empresa, siteUrl: string): Dados {
-  const telefone = config.modoConceito ? "" : empresa.telefone || empresa.whatsapp;
+  const numero = config.modoConceito ? "" : empresa.telefone || empresa.whatsapp;
+  const telefone = numero ? telefoneInternacional(numero) : "";
   return {
     "@context": CONTEXTO,
     "@type": "LocalBusiness",

@@ -5,6 +5,18 @@ import { entradasSitemap, regrasRobots, rotas } from "@/lib/rotas";
 
 const CLIENTE = "https://cliente.com.br";
 
+/** Os textos entre aspas do array `const NOME = [ ... ];` de um arquivo, em ordem alfabética. */
+function listaDe(fonte: string, nome: string): string[] {
+  const bloco = fonte.match(new RegExp(`const ${nome} = \\[([\\s\\S]*?)\\];`))?.[1] ?? "";
+  return [...bloco.matchAll(/"([^"]*)"/g)].map((m) => m[1]).sort();
+}
+
+/** As chaves do objeto `const NOME: ... = { ... };` de um arquivo, em ordem alfabética. */
+function chavesDe(fonte: string, nome: string): string[] {
+  const bloco = fonte.match(new RegExp(`const ${nome}[^=]*= \\{([\\s\\S]*?)\\n\\};`))?.[1] ?? "";
+  return [...bloco.matchAll(/^\s*"([^"]*)":/gm)].map((m) => m[1]).sort();
+}
+
 describe("rotas, sitemap e robots", () => {
   it("o sitemap tem as 12 páginas, sem a 404, no domínio recebido", () => {
     expect(entradasSitemap(CLIENTE).map((e) => e.url)).toEqual([
@@ -37,10 +49,11 @@ describe("rotas, sitemap e robots", () => {
     });
   });
 
-  it("toda página do sitemap também passa pelo teste de rotas e pelo teste de SEO", () => {
+  it("as listas ROTAS dos testes de rotas e de SEO e a tabela TIPOS são as páginas do sitemap, nem mais nem menos", () => {
+    const caminhos = rotas.map((r) => r.caminho).sort();
     for (const arquivo of ["tests/e2e/rotas.spec.ts", "tests/e2e/seo.spec.ts"]) {
-      const texto = readFileSync(arquivo, "utf8");
-      for (const { caminho } of rotas) expect(texto, `${caminho} falta em ${arquivo}`).toContain(`"${caminho}"`);
+      expect(listaDe(readFileSync(arquivo, "utf8"), "ROTAS"), `ROTAS de ${arquivo}`).toEqual(caminhos);
     }
+    expect(chavesDe(readFileSync("tests/e2e/seo.spec.ts", "utf8"), "TIPOS"), "TIPOS de seo.spec.ts").toEqual(caminhos);
   });
 });

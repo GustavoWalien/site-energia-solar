@@ -8,3 +8,6 @@ export const menu: LinkMenu[] = [
 ];
 
 export const chamadaTopo = "Peça seu orçamento";
+
+/** O primeiro item das trilhas de navegação. */
+export const rotuloInicio = "Início";

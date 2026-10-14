@@ -6,7 +6,7 @@ import { CabecalhoPagina } from "@/components/ui/CabecalhoPagina";
 import { Secao } from "@/components/ui/Secao";
 import { config } from "@/content/config";
 import { empresa } from "@/content/empresa";
-import { menu } from "@/content/navegacao";
+import { menu, rotuloInicio } from "@/content/navegacao";
 import { paginas } from "@/content/paginas";
 import { negocioLocal, trilha } from "@/lib/jsonld";
 import { metadados } from "@/lib/seo";
@@ -24,7 +24,7 @@ export default function Sobre() {
           negocioLocal(config, empresa, SITE_URL),
           trilha(
             [
-              { nome: paginas.servico.trilhaInicio, caminho: "/" },
+              { nome: rotuloInicio, caminho: "/" },
               { nome: menu.find((l) => l.href === "/sobre")!.rotulo, caminho: "/sobre" },
             ],
             SITE_URL,
