@@ -20,6 +20,7 @@ const empresa: Empresa = {
   mensagemWhatsapp: "Quero um orçamento",
   emailPedidos: "pedidos@empresa.com",
   remetente: "",
+  telefone: "",
   horario: [],
   horarioSchema: [],
   cidades: [],

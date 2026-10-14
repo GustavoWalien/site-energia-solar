@@ -33,6 +33,8 @@ export type Empresa = {
   emailPedidos: string;
   /** Remetente verificado no Resend (ex.: "site@empresa.com.br"). Só é usado com o modo conceito desligado. */
   remetente: string;
+  /** Telefone fixo da empresa, com DDD. Vazio no modo conceito (sem número inventado); vazio, o bloco some. */
+  telefone: string;
   horario: Horario[];
   /** O mesmo horário no formato do schema.org, ex.: "Mo-Fr 07:00-17:00". */
   horarioSchema: string[];
@@ -101,12 +103,25 @@ export type TextosInicio = {
 
 export type IconeServico = "casa" | "empresa" | "campo" | "limpeza";
 
+/** Título e descrição de uma página. Com `absoluto`, o título ignora o sufixo " | Ipê Solar" do layout. */
+export type Seo = { titulo: string; descricao: string; absoluto?: boolean };
+
+export type BlocoServico = { titulo: string; itens: string[] };
+
 export type Servico = {
   slug: string;
-  /** Nome do serviço, usado no link do cartão. Ex.: "Energia solar para casa". */
+  /** Nome do serviço, usado no link do cartão e na trilha. Ex.: "Energia solar para casa". */
   nome: string;
   icone: IconeServico;
   cartao: { titulo: string; texto: string };
+  seo: Seo;
+  h1: string;
+  abertura: string;
+  /** "O que está incluído" (ou "O que a gente faz"). */
+  incluido: BlocoServico;
+  /** O bloco que muda de serviço para serviço: "Faz mais sentido se", "Para quem", "Usos" ou "Planos". */
+  extra: BlocoServico;
+  perguntas: Pergunta[];
 };
 
 export type Pergunta = { pergunta: string; resposta: string };
@@ -155,4 +170,51 @@ export type TextosFormulario = {
   /** "{nome}" vira o nome de quem pediu. */
   sucesso: string;
   sucessoConceito: string;
+};
+
+export type RetratoMembro = {
+  pele: string;
+  cabelo: "curto" | "longo" | "coque";
+  corCabelo: string;
+  roupa: string;
+  acessorio?: "capacete" | "oculos" | "bone";
+};
+
+export type Membro = { nome: string; cargo: string; texto: string; retrato: RetratoMembro };
+
+export type TextosPaginas = {
+  servicos: { seo: Seo; rotulo: string; titulo: string; apoio: string };
+  servico: {
+    trilhaInicio: string;
+    trilhaServicos: string;
+    botao: string;
+    /** "{servico}" vira o nome do serviço em minúsculas. */
+    mensagem: string;
+    perguntas: string;
+  };
+  sobre: {
+    seo: Seo;
+    rotulo: string;
+    titulo: string;
+    historia: string;
+    numerosTitulo: string;
+    equipeTitulo: string;
+    ondeTitulo: string;
+    ondeApoio: string;
+  };
+  contato: {
+    seo: Seo;
+    titulo: string;
+    apoio: string;
+    blocosRotulo: string;
+    whatsappTitulo: string;
+    whatsappTexto: string;
+    whatsappBotao: string;
+    telefone: string;
+    horario: string;
+    local: string;
+    mapaTitulo: string;
+    abrirMapa: string;
+  };
+  naoEncontrada: { seo: Seo; titulo: string; texto: string; botao: string };
 };
