@@ -1,36 +1,60 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Ipê Solar
 
-## Getting Started
+Site de uma empresa fictícia de energia solar em Cuiabá-MT. É um projeto conceito do portfólio de Gustavo Walien e também um modelo: dá para trocar para uma empresa de verdade mexendo só em conteúdo e cores.
 
-First, run the development server:
+**No ar:** https://ipe-solar.vercel.app
+
+## O que tem
+
+- **Hero ilustrado guiado pela rolagem:** o dia nasce sobre Cuiabá, o sol percorre o céu e as placas do telhado acendem. É tudo em SVG, com um motor próprio que só anima `transform` e `opacity`.
+- **Simulador de economia:** do valor da conta de luz para o número de placas e a economia por mês e por ano, com as regras do Fio B de 2026.
+- **4 páginas de serviço**, Sobre, Contato com mapa e um **blog com 3 artigos** em MDX.
+- **Pedido de orçamento** pelo WhatsApp ou pelo formulário, que chega por e-mail pelo Resend.
+- **Pensado para o Google e para o WhatsApp:** canônico, Open Graph, imagem de compartilhamento por página, sitemap, robots e dados estruturados (LocalBusiness, Service, FAQPage, BlogPosting).
+- **Modo conceito:** os contatos vão para o autor, e o site avisa que a empresa é fictícia.
+
+## Stack
+
+Next.js 16 (App Router, `cacheComponents`), React 19, TypeScript, Tailwind CSS 4, MDX, Resend, Vitest e Playwright. Publicado na Vercel.
+
+## Rodar no computador
+
+Precisa do Node.js 24.
 
 ```bash
+npm install
+vercel env pull .env.local   # a chave do Resend, com o projeto ligado pelo `vercel link`
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Com o `.env.local`, o formulário do `npm run dev` envia e-mail de verdade. Sem ele, o envio falha com um aviso no log.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Testes
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm test            # Vitest: simulador, formulário, e-mail, SEO, dados estruturados, textos, contraste
+npm run test:e2e    # Playwright no build de produção, no computador (1440 px) e no celular (375 px)
+npm run test:all    # os dois
+```
 
-## Learn More
+Os testes nunca enviam e-mail: o Playwright sobe o servidor com `EMAIL_TRANSPORTE=teste`.
 
-To learn more about Next.js, take a look at the following resources:
+Para o Lighthouse (relatórios em `.lighthouse/`, fora do Git):
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+NEXT_PUBLIC_SITE_URL=http://localhost:3300 npm run build && npx next start -p 3300
+npm run lighthouse -- http://localhost:3300
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Onde fica cada coisa
 
-## Deploy on Vercel
+- Textos, dados da empresa e constantes do simulador: `content/`. A fonte de todos os textos é `docs/textos.md`.
+- Hero: `components/hero/` (as camadas do desenho em `components/hero/camadas/`).
+- Envio do pedido: `app/actions/pedido.ts` e `lib/email.ts`.
+- SEO e dados estruturados: `lib/seo.ts`, `lib/jsonld.ts` e `lib/rotas.ts`.
+- Imagem de compartilhamento da Início e ícone da Apple: gerados por `scripts/og.mjs`.
+- Design e decisões: `docs/superpowers/specs/2026-10-13-site-ipe-solar-design.md`.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Trocar para outro cliente
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+O passo a passo está em `CONTEUDO.md`.

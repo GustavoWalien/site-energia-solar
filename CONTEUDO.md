@@ -17,6 +17,12 @@ Em `content/config.ts`, troque `modoConceito` para `false`. Com o modo desligado
 - os dados do Google ganham o telefone;
 - somem a linha "Projeto conceito" do rodapé e a nota dos depoimentos.
 
+Para o formulário enviar de verdade:
+- instale a integração do Resend no projeto da Vercel (Marketplace, "Resend"). Ela cria a `RESEND_API_KEY` sozinha;
+- verifique no Resend o domínio do `remetente`, com os registros de DNS que ele pedir.
+
+O domínio do site vem da variável `NEXT_PUBLIC_SITE_URL` (ex.: `https://empresa.com.br`). Defina-a nas variáveis do projeto na Vercel, para valer no build e também no servidor. A 404 de um endereço que não existe é montada na hora da visita e lê a variável nesse momento.
+
 ## 2. Cores
 
 As cores ficam no `@theme` de `app/globals.css`: `ipe`, `ceu-claro`, `ceu`, `profundo`, `mata` e `papel`. Depois de trocar, rode `npx vitest run tests/unit/contraste.test.ts`: ele confere se os pares de texto e fundo continuam legíveis (4,5:1).
