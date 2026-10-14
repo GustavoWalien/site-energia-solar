@@ -1,4 +1,15 @@
-import { expect, test } from "@playwright/test";
+import { expect, test, type Page } from "@playwright/test";
+
+/**
+ * Abre o aviso clicando no botão flutuante. Antes da hidratação, o link segue direto para o WhatsApp (o comportamento
+ * sem JavaScript, de propósito), então o clique se repete até o aviso abrir.
+ */
+async function abrirAviso(page: Page, clicar: () => Promise<void>) {
+  await expect(async () => {
+    await clicar();
+    await expect(page.getByRole("dialog")).toBeVisible({ timeout: 1000 });
+  }).toPass();
+}
 
 const LINK_AUTOR =
   "https://wa.me/5565981222210?text=Ol%C3%A1!%20Vi%20o%20site%20conceito%20da%20Ip%C3%AA%20Solar%20e%20quero%20conversar%20sobre%20um%20site%20para%20o%20meu%20neg%C3%B3cio.";
@@ -8,7 +19,7 @@ test.describe("WhatsApp no modo conceito", () => {
     await page.goto("/sobre");
     const flutuante = page.locator("#whatsapp-flutuante");
     // clique que não move o foco, como no Safari: quem devolve o foco é o próprio aviso
-    await flutuante.dispatchEvent("click");
+    await abrirAviso(page, () => flutuante.dispatchEvent("click"));
     const aviso = page.getByRole("dialog", { name: "Este é um projeto conceito." });
     await expect(aviso).toBeVisible();
     const autor = aviso.getByRole("link", { name: "Falar com quem fez este site" });
@@ -22,7 +33,7 @@ test.describe("WhatsApp no modo conceito", () => {
   test("fecha pelo botão de continuar e pelo clique fora da janela", async ({ page }) => {
     await page.goto("/sobre");
     const aviso = page.getByRole("dialog");
-    await page.locator("#whatsapp-flutuante").click();
+    await abrirAviso(page, () => page.locator("#whatsapp-flutuante").click());
     await aviso.getByRole("button", { name: "Continuar vendo o site" }).click();
     await expect(aviso).toBeHidden();
     await page.locator("#whatsapp-flutuante").click();
@@ -74,7 +85,7 @@ test.describe("rodapé", () => {
 
 test("o botão de fechar do aviso usa o papel, não o branco puro", async ({ page }) => {
   await page.goto("/sobre");
-  await page.locator("#whatsapp-flutuante").click();
+  await abrirAviso(page, () => page.locator("#whatsapp-flutuante").click());
   const fechar = page.getByRole("dialog").getByRole("button", { name: "Fechar aviso" });
   expect(await fechar.evaluate((el) => getComputedStyle(el).backgroundColor)).toBe("rgb(250, 250, 245)");
 });
