@@ -6,8 +6,13 @@ import { OQueFazemos } from "@/components/inicio/OQueFazemos";
 import { Perguntas } from "@/components/inicio/Perguntas";
 import { Promessas } from "@/components/inicio/Promessas";
 import { SecaoSimulador } from "@/components/inicio/SecaoSimulador";
+import { DadosEstruturados } from "@/components/seo/DadosEstruturados";
+import { config } from "@/content/config";
 import { empresa } from "@/content/empresa";
+import { perguntas } from "@/content/perguntas";
+import { negocioLocal, perguntasFrequentes } from "@/lib/jsonld";
 import { metadados, tituloFinal } from "@/lib/seo";
+import { SITE_URL } from "@/lib/site";
 
 // O modelo "%s | Ipê Solar" do layout só vale para os segmentos filhos; a Início, no mesmo segmento, leva o título inteiro.
 export const metadata = metadados(
@@ -18,6 +23,7 @@ export const metadata = metadados(
 export default function Inicio() {
   return (
     <>
+      <DadosEstruturados dados={[negocioLocal(config, empresa, SITE_URL), perguntasFrequentes(perguntas)]} />
       <Hero />
       <OQueFazemos />
       <SecaoSimulador />

@@ -1,9 +1,13 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { DadosEstruturados } from "@/components/seo/DadosEstruturados";
 import { PaginaServico } from "@/components/servicos/PaginaServico";
+import { empresa } from "@/content/empresa";
 import { paginas } from "@/content/paginas";
 import { servicos } from "@/content/servicos";
+import { perguntasFrequentes, servicoOferecido, trilha } from "@/lib/jsonld";
 import { metadados } from "@/lib/seo";
+import { SITE_URL } from "@/lib/site";
 
 // Com cacheComponents, o Next 16 não aceita dynamicParams: endereço fora da lista cai no notFound().
 export function generateStaticParams() {
@@ -27,5 +31,24 @@ export default async function Pagina({ params }: PageProps<"/servicos/[slug]">) 
   const { slug } = await params;
   const servico = servicos.find((s) => s.slug === slug);
   if (!servico) notFound();
-  return <PaginaServico servico={servico} />;
+  const t = paginas.servico;
+  return (
+    <>
+      <DadosEstruturados
+        dados={[
+          servicoOferecido(servico, empresa, SITE_URL),
+          trilha(
+            [
+              { nome: t.trilhaInicio, caminho: "/" },
+              { nome: t.trilhaServicos, caminho: "/servicos" },
+              { nome: servico.nome, caminho: `/servicos/${servico.slug}` },
+            ],
+            SITE_URL,
+          ),
+          perguntasFrequentes(servico.perguntas),
+        ]}
+      />
+      <PaginaServico servico={servico} />
+    </>
+  );
 }

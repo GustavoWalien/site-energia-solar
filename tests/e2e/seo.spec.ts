@@ -88,3 +88,37 @@ test("sitemap.xml com as 12 páginas e robots.txt apontando para ele", async ({ 
   expect(texto).toMatch(/allow: \//i);
   expect(texto).toContain(`Sitemap: ${SITE}/sitemap.xml`);
 });
+
+const TIPOS: Record<string, string[]> = {
+  "/": ["LocalBusiness", "FAQPage"],
+  "/servicos": [],
+  "/servicos/energia-solar-residencial": ["Service", "BreadcrumbList", "FAQPage"],
+  "/servicos/energia-solar-para-empresas": ["Service", "BreadcrumbList", "FAQPage"],
+  "/servicos/energia-solar-rural": ["Service", "BreadcrumbList", "FAQPage"],
+  "/servicos/limpeza-de-placas-solares": ["Service", "BreadcrumbList", "FAQPage"],
+  "/sobre": ["LocalBusiness", "BreadcrumbList"],
+  "/contato": ["LocalBusiness", "BreadcrumbList"],
+  "/blog": [],
+  "/blog/energia-solar-vale-a-pena-2026-fio-b": ["BlogPosting", "BreadcrumbList"],
+  "/blog/placas-solares-geram-menos-na-seca": ["BlogPosting", "BreadcrumbList"],
+  "/blog/creditos-de-energia-energisa": ["BlogPosting", "BreadcrumbList"],
+};
+
+test.describe("dados estruturados de cada página", () => {
+  for (const rota of ROTAS) {
+    test(`${rota}: JSON válido, os tipos da spec e nenhum telefone no modo conceito`, async ({ page }) => {
+      await page.goto(rota);
+      const blocos = await page.locator('script[type="application/ld+json"]').allTextContents();
+      const dados = blocos.map((b) => JSON.parse(b) as Record<string, unknown>);
+      expect(dados.map((d) => d["@type"])).toEqual(TIPOS[rota]);
+      for (const d of dados) expect(d["@context"]).toBe("https://schema.org");
+      expect(blocos.join("")).not.toContain("telephone");
+      expect(blocos.join("")).not.toContain("streetAddress");
+    });
+  }
+
+  test("a 404 não tem dados estruturados", async ({ page }) => {
+    await page.goto("/servicos/nao-existe");
+    await expect(page.locator('script[type="application/ld+json"]')).toHaveCount(0);
+  });
+});

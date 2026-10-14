@@ -2,10 +2,14 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Capa } from "@/components/blog/Capa";
 import { ChamadaFinal } from "@/components/inicio/ChamadaFinal";
+import { DadosEstruturados } from "@/components/seo/DadosEstruturados";
 import { CabecalhoPagina } from "@/components/ui/CabecalhoPagina";
+import { empresa } from "@/content/empresa";
 import { paginas } from "@/content/paginas";
 import { acharArtigo, artigosOrdenados, dataPorExtenso } from "@/lib/blog";
+import { artigoDoBlog, trilha } from "@/lib/jsonld";
 import { metadados } from "@/lib/seo";
+import { SITE_URL } from "@/lib/site";
 
 const t = paginas.blog;
 
@@ -35,6 +39,19 @@ export default async function PaginaArtigo({ params }: PageProps<"/blog/[slug]">
   const { metadata: m, Conteudo } = artigo;
   return (
     <>
+      <DadosEstruturados
+        dados={[
+          artigoDoBlog(artigo, empresa, SITE_URL),
+          trilha(
+            [
+              { nome: t.trilhaInicio, caminho: "/" },
+              { nome: t.trilhaBlog, caminho: "/blog" },
+              { nome: m.titulo, caminho: `/blog/${slug}` },
+            ],
+            SITE_URL,
+          ),
+        ]}
+      />
       <CabecalhoPagina
         titulo={m.titulo}
         trilha={[
