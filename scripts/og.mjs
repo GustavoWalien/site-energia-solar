@@ -7,6 +7,7 @@
 //   npm run build && npx next start -p 3300
 //   node scripts/og.mjs http://localhost:3300
 import { chromium } from "@playwright/test";
+import { dividirTitulo } from "./titulo-og.mjs";
 
 const base = process.argv[2] ?? "http://localhost:3300";
 
@@ -31,22 +32,30 @@ await pagina.evaluate(() => document.fonts.ready);
 // as camadas da cena surgem num fade de 300 ms depois que o motor aplica o enquadramento
 await pagina.waitForTimeout(1200);
 await pagina.addStyleTag({ content: ESTILO });
-const { flor, ipe, profundo } = await pagina.evaluate(() => {
-  const nome = document.querySelector(".topo__nome").textContent.trim();
-  const flor = document.querySelector(".topo__flor").outerHTML;
-  const rotulo = document.querySelector(".hero__rotulo").textContent.trim();
-  const corte = rotulo.lastIndexOf(" ");
-  const og = document.createElement("div");
-  og.className = "og";
-  og.innerHTML =
-    `<div class="og__placa">${flor}<span>${nome}</span></div>` +
-    `<p class="og__titulo">${rotulo.slice(0, corte)} <em>${rotulo.slice(corte + 1)}</em>.</p>`;
-  document.body.append(og);
+const { nome, flor, rotulo, ipe, profundo } = await pagina.evaluate(() => {
   // as cores do @theme (app/globals.css), para o ícone, que é montado fora do site
   const tema = getComputedStyle(document.documentElement);
   const cor = (nome) => tema.getPropertyValue(nome).trim();
-  return { flor, ipe: cor("--color-ipe"), profundo: cor("--color-profundo") };
+  return {
+    nome: document.querySelector(".topo__nome").textContent.trim(),
+    flor: document.querySelector(".topo__flor").outerHTML,
+    rotulo: document.querySelector(".hero__rotulo").textContent,
+    ipe: cor("--color-ipe"),
+    profundo: cor("--color-profundo"),
+  };
 });
+const { inicio, destaque } = dividirTitulo(rotulo);
+await pagina.evaluate(
+  ({ nome, flor, inicio, destaque }) => {
+    const og = document.createElement("div");
+    og.className = "og";
+    og.innerHTML =
+      `<div class="og__placa">${flor}<span>${nome}</span></div>` +
+      `<p class="og__titulo">${inicio ? `${inicio} ` : ""}<em>${destaque}</em>.</p>`;
+    document.body.append(og);
+  },
+  { nome, flor, inicio, destaque },
+);
 await pagina.waitForTimeout(300);
 await pagina.screenshot({ path: "app/opengraph-image.png" });
 

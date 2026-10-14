@@ -31,32 +31,35 @@ mkdirSync(".lighthouse", { recursive: true });
 // (onde o Tailwind tentaria ler o socket dele e quebraria o build).
 const pastaTemporaria = mkdtempSync(join(tmpdir(), "lighthouse-ipe-"));
 const linhas = [];
-for (const [pagina, caminho] of Object.entries(PAGINAS)) {
-  for (const [formato, extra] of Object.entries(FORMATOS)) {
-    const saida = resolve(".lighthouse", `${pagina}-${formato}`);
-    execFileSync(
-      "npx",
-      [
-        "-y",
-        "lighthouse@13.5.0",
-        `${base}${caminho}`,
-        "--quiet",
-        "--output=json",
-        "--output=html",
-        `--output-path=${saida}`,
-        "--chrome-flags=--headless=new --no-sandbox",
-        ...extra,
-      ],
-      { cwd: pastaTemporaria, stdio: "inherit", env: { ...process.env, CHROME_PATH: chromium.executablePath() } },
-    );
-    const relatorio = JSON.parse(readFileSync(`${saida}.report.json`, "utf8"));
-    const notas = Object.fromEntries(
-      Object.entries(CATEGORIAS).map(([id, nome]) => [nome, Math.round(relatorio.categories[id].score * 100)]),
-    );
-    linhas.push({ pagina, formato, ...notas });
+try {
+  for (const [pagina, caminho] of Object.entries(PAGINAS)) {
+    for (const [formato, extra] of Object.entries(FORMATOS)) {
+      const saida = resolve(".lighthouse", `${pagina}-${formato}`);
+      execFileSync(
+        "npx",
+        [
+          "-y",
+          "lighthouse@13.5.0",
+          `${base}${caminho}`,
+          "--quiet",
+          "--output=json",
+          "--output=html",
+          `--output-path=${saida}`,
+          "--chrome-flags=--headless=new --no-sandbox",
+          ...extra,
+        ],
+        { cwd: pastaTemporaria, stdio: "inherit", env: { ...process.env, CHROME_PATH: chromium.executablePath() } },
+      );
+      const relatorio = JSON.parse(readFileSync(`${saida}.report.json`, "utf8"));
+      const notas = Object.fromEntries(
+        Object.entries(CATEGORIAS).map(([id, nome]) => [nome, Math.round(relatorio.categories[id].score * 100)]),
+      );
+      linhas.push({ pagina, formato, ...notas });
+    }
   }
+} finally {
+  rmSync(pastaTemporaria, { recursive: true, force: true });
 }
-rmSync(pastaTemporaria, { recursive: true, force: true });
 console.table(linhas);
 const abaixo = linhas.filter((l) => PORTAO.some((nome) => l[nome] < 95));
 if (abaixo.length) {
