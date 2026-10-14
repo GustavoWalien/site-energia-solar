@@ -39,6 +39,9 @@ export const transporteIndisponivel: Transporte = async () => {
   return { ok: false };
 };
 
+/** Quanto o envio espera pelo Resend antes de desistir. */
+export const LIMITE_ENVIO_MS = 10_000;
+
 /** O que o transporte usa do SDK do Resend. Os testes passam um cliente falso, sem rede. */
 export type ClienteResend = {
   emails: {
@@ -56,15 +59,23 @@ export type ClienteResend = {
  * pode trazer o endereço de e-mail, e dado pessoal não vai para o log. Fora de produção, o próprio SDK escreve o erro
  * inteiro no console antes de devolvê-lo (logError em node_modules/resend); em produção ele não escreve.
  */
-export function transporteResend(cliente: ClienteResend): Transporte {
+export function transporteResend(cliente: ClienteResend, limiteMs = LIMITE_ENVIO_MS): Transporte {
   return async (email) => {
+    let relogio: ReturnType<typeof setTimeout> | undefined;
+    // Resend travado: desiste no limite, para quem pediu ver a falha (com o WhatsApp) em vez de esperar sem fim
+    const esgotou = new Promise<"esgotou">((resolver) => {
+      relogio = setTimeout(() => resolver("esgotou"), limiteMs);
+    });
     try {
-      const { error } = await cliente.emails.send({
-        from: email.de,
-        to: [email.para],
-        subject: email.assunto,
-        text: email.texto,
-      });
+      const resposta = await Promise.race([
+        cliente.emails.send({ from: email.de, to: [email.para], subject: email.assunto, text: email.texto }),
+        esgotou,
+      ]);
+      if (resposta === "esgotou") {
+        console.error(`O Resend não respondeu em ${limiteMs / 1000} s: o pedido não foi enviado.`);
+        return { ok: false };
+      }
+      const { error } = resposta;
       if (error) {
         console.error(`O Resend recusou o envio do pedido (${error.name ?? "erro sem tipo"}).`);
         return { ok: false };
@@ -73,13 +84,18 @@ export function transporteResend(cliente: ClienteResend): Transporte {
     } catch {
       console.error("Falha de rede ao chamar o Resend: o pedido não foi enviado.");
       return { ok: false };
+    } finally {
+      clearTimeout(relogio);
     }
   };
 }
 
 /** Nos testes, nada sai para a rede. Com a chave da integração, o envio vai pelo Resend. */
-export function escolherTransporte(env: Record<string, string | undefined> = process.env): Transporte {
+export function escolherTransporte(
+  env: Record<string, string | undefined> = process.env,
+  criarCliente: (chave: string) => ClienteResend = (chave) => new Resend(chave),
+): Transporte {
   if (env.EMAIL_TRANSPORTE === "teste") return transporteTeste;
-  if (env.RESEND_API_KEY) return transporteResend(new Resend(env.RESEND_API_KEY));
+  if (env.RESEND_API_KEY) return transporteResend(criarCliente(env.RESEND_API_KEY));
   return transporteIndisponivel;
 }
