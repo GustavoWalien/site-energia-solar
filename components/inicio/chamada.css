@@ -1,0 +1,51 @@
+@layer components {
+  .chamada {
+    padding: clamp(72px, 10vw, 128px) 16px;
+    background: var(--color-profundo);
+    color: var(--color-papel);
+  }
+  .chamada__miolo {
+    display: grid;
+    grid-template-columns: 1fr 1.1fr;
+    gap: 48px;
+    align-items: start;
+    width: min(1120px, 100%);
+    margin: 0 auto;
+  }
+  .chamada__titulo {
+    max-width: 12ch;
+    font-weight: 800;
+    font-size: clamp(2.2rem, 5vw, 3.8rem);
+    line-height: 1;
+  }
+  .chamada__apoio {
+    max-width: 36ch;
+    margin: 18px 0 28px;
+    font-size: 1.15rem;
+    color: var(--color-ceu-claro);
+  }
+  .chamada__formulario {
+    padding: 28px;
+    border: 2.5px solid var(--color-ipe);
+    border-radius: 22px;
+    background: var(--color-papel);
+    color: var(--color-profundo);
+    box-shadow: 0 6px 0 var(--color-ipe);
+  }
+  /* o cartão do formulário é claro, dentro do bloco escuro: o foco volta a ser azul */
+  .chamada__formulario :focus-visible {
+    outline-color: var(--color-profundo);
+  }
+  .chamada__formulario-titulo {
+    margin-bottom: 18px;
+    font-weight: 600;
+  }
+  @media (max-width: 860px) {
+    .chamada__miolo {
+      grid-template-columns: 1fr;
+    }
+    .chamada__formulario {
+      padding: 20px;
+    }
+  }
+}

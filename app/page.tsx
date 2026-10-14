@@ -1,4 +1,5 @@
 import { Hero } from "@/components/hero/Hero";
+import { ChamadaFinal } from "@/components/inicio/ChamadaFinal";
 import { ComoFunciona } from "@/components/inicio/ComoFunciona";
 import { Depoimentos } from "@/components/inicio/Depoimentos";
 import { OQueFazemos } from "@/components/inicio/OQueFazemos";
@@ -16,6 +17,7 @@ export default function Inicio() {
       <Promessas />
       <Depoimentos />
       <Perguntas />
+      <ChamadaFinal />
     </>
   );
 }

@@ -14,6 +14,8 @@
 @import "../components/inicio/promessas.css";
 @import "../components/inicio/depoimentos.css";
 @import "../components/inicio/perguntas.css";
+@import "../components/inicio/chamada.css";
+@import "../components/contato/pedido.css";
 
 /* static: publica todas as variáveis, mesmo as que só aparecem nos .css dos componentes */
 @theme static {
