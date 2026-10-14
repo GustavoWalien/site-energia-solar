@@ -1,0 +1,15 @@
+/* Entrada suave dos itens quando o bloco aparece. Só com JavaScript e sem movimento reduzido. */
+@layer components {
+  .revelar__item {
+    transition:
+      opacity 0.6s var(--ease-saida),
+      transform 0.6s var(--ease-saida);
+    transition-delay: calc(var(--ordem, 0) * 90ms);
+  }
+  @media (scripting: enabled) and (prefers-reduced-motion: no-preference) {
+    .revelar:not([data-revelado]) .revelar__item {
+      opacity: 0;
+      transform: translateY(18px);
+    }
+  }
+}
