@@ -1,0 +1,45 @@
+@layer components {
+  .promessas {
+    background: var(--color-ceu-claro);
+    border-block: 2.5px solid var(--color-profundo);
+  }
+  .promessas__lista {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 36px 48px;
+    margin-top: 48px;
+    padding: 0;
+    list-style: none;
+  }
+  .promessa {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: 20px;
+    align-items: start;
+  }
+  .promessa__icone {
+    width: 80px;
+    height: 80px;
+  }
+  .promessa__titulo {
+    font-weight: 800;
+    font-size: 1.35rem;
+    line-height: 1.15;
+  }
+  .promessa__texto {
+    margin-top: 8px;
+    color: var(--color-tinta-suave);
+  }
+  @media (max-width: 760px) {
+    .promessas__lista {
+      grid-template-columns: 1fr;
+    }
+    .promessa {
+      grid-template-columns: 64px 1fr;
+    }
+    .promessa__icone {
+      width: 64px;
+      height: 64px;
+    }
+  }
+}

@@ -1,6 +1,9 @@
 import { Hero } from "@/components/hero/Hero";
 import { ComoFunciona } from "@/components/inicio/ComoFunciona";
+import { Depoimentos } from "@/components/inicio/Depoimentos";
 import { OQueFazemos } from "@/components/inicio/OQueFazemos";
+import { Perguntas } from "@/components/inicio/Perguntas";
+import { Promessas } from "@/components/inicio/Promessas";
 import { SecaoSimulador } from "@/components/inicio/SecaoSimulador";
 
 export default function Inicio() {
@@ -10,6 +13,9 @@ export default function Inicio() {
       <OQueFazemos />
       <SecaoSimulador />
       <ComoFunciona />
+      <Promessas />
+      <Depoimentos />
+      <Perguntas />
     </>
   );
 }

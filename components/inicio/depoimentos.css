@@ -1,0 +1,57 @@
+@layer components {
+  .depoimentos__lista {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+    align-items: start;
+    margin-top: 48px;
+    padding: 0;
+    list-style: none;
+  }
+  .depoimentos__lista > li:nth-child(2) {
+    margin-top: 36px;
+  }
+  .depoimento {
+    margin: 0;
+  }
+  .depoimento__balao {
+    position: relative;
+    margin: 0;
+    padding: 24px;
+    border: 2.5px solid var(--color-profundo);
+    border-radius: 22px;
+    background: var(--color-papel);
+    box-shadow: var(--shadow-dura);
+    font-size: 1.1rem;
+  }
+  /* o rabicho do balão: um quadrado girado que cobre a borda de baixo */
+  .depoimento__balao::after {
+    content: "";
+    position: absolute;
+    left: 34px;
+    bottom: -15px;
+    width: 26px;
+    height: 26px;
+    border-right: 2.5px solid var(--color-profundo);
+    border-bottom: 2.5px solid var(--color-profundo);
+    background: var(--color-papel);
+    transform: rotate(45deg);
+  }
+  .depoimento__autor {
+    margin-top: 28px;
+    padding-left: 20px;
+  }
+  .depoimentos__nota {
+    margin-top: 32px;
+    font-size: 0.9rem;
+    color: var(--color-tinta-suave);
+  }
+  @media (max-width: 860px) {
+    .depoimentos__lista {
+      grid-template-columns: 1fr;
+    }
+    .depoimentos__lista > li:nth-child(2) {
+      margin-top: 0;
+    }
+  }
+}

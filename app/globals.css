@@ -11,6 +11,9 @@
 @import "../components/inicio/simulador.css";
 @import "../components/inicio/fazemos.css";
 @import "../components/inicio/como.css";
+@import "../components/inicio/promessas.css";
+@import "../components/inicio/depoimentos.css";
+@import "../components/inicio/perguntas.css";
 
 /* static: publica todas as variáveis, mesmo as que só aparecem nos .css dos componentes */
 @theme static {
