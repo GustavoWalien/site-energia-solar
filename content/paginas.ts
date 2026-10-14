@@ -55,6 +55,27 @@ export const paginas: TextosPaginas = {
     mapaTitulo: "Mapa de Cuiabá, MT",
     abrirMapa: "Abrir no Google Maps",
   },
+  blog: {
+    seo: {
+      titulo: "Blog sobre energia solar em Cuiabá",
+      descricao:
+        "Conta de luz, Fio B, seca e placas, explicados sem enrolação. Artigos da Ipê Solar sobre energia solar em Cuiabá e Mato Grosso.",
+    },
+    rotulo: "Blog",
+    titulo: "Blog da Ipê Solar",
+    apoio: "Conta de luz, Fio B, seca e placas, explicados sem enrolação.",
+    lerArtigo: "Ler artigo",
+    minutos: "min de leitura",
+    trilhaInicio: "Início",
+    trilhaBlog: "Blog",
+    fontesTitulo: "Fontes",
+    naPratica: "Na prática",
+    chamada: {
+      titulo: "Quer saber quanto você economiza?",
+      texto: "Mande uma foto da sua conta de luz no WhatsApp. A gente responde com uma estimativa, sem compromisso.",
+      botao: "Pedir minha estimativa",
+    },
+  },
   naoEncontrada: {
     seo: {
       titulo: "Página não encontrada",

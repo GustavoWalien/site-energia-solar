@@ -216,5 +216,37 @@ export type TextosPaginas = {
     mapaTitulo: string;
     abrirMapa: string;
   };
+  blog: {
+    seo: Seo;
+    rotulo: string;
+    titulo: string;
+    apoio: string;
+    lerArtigo: string;
+    minutos: string;
+    trilhaInicio: string;
+    trilhaBlog: string;
+    fontesTitulo: string;
+    naPratica: string;
+    chamada: { titulo: string; texto: string; botao: string };
+  };
   naoEncontrada: { seo: Seo; titulo: string; texto: string; botao: string };
+};
+
+export type Capa = "fiob" | "seca" | "creditos";
+
+export type Fonte = { nome: string; url: string };
+
+/** O export metadata de cada artigo em content/blog/*.mdx. */
+export type MetadadosArtigo = {
+  /** O H1 do artigo. */
+  titulo: string;
+  /** O título da aba e do Google: com " | Ipê Solar", até 60 caracteres. */
+  tituloSeo: string;
+  descricao: string;
+  /** Data de publicação, AAAA-MM-DD. */
+  data: string;
+  /** Minutos de leitura: palavras ÷ 200, arredondado. */
+  leitura: number;
+  capa: Capa;
+  fontes: Fonte[];
 };
