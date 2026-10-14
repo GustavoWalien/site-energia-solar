@@ -1,8 +1,26 @@
-import type { Metadata } from "next";
-import { EmConstrucao } from "@/components/ui/EmConstrucao";
+import { CartaoArtigo } from "@/components/blog/CartaoArtigo";
+import { CabecalhoPagina } from "@/components/ui/CabecalhoPagina";
+import { paginas } from "@/content/paginas";
+import { artigosOrdenados } from "@/lib/blog";
+import { metadados } from "@/lib/seo";
 
-export const metadata: Metadata = { title: "Blog" };
+const t = paginas.blog;
+
+export const metadata = metadados(t.seo);
 
 export default function Blog() {
-  return <EmConstrucao titulo="Blog" texto="Os três artigos chegam no Plano 4: Fio B, seca e créditos de energia." />;
+  return (
+    <>
+      <CabecalhoPagina rotulo={t.rotulo} titulo={t.titulo} apoio={t.apoio} />
+      <section className="secao" aria-label={t.rotulo}>
+        <div className="secao__miolo">
+          <ul className="artigos">
+            {artigosOrdenados.map((a) => (
+              <CartaoArtigo key={a.slug} artigo={a} />
+            ))}
+          </ul>
+        </div>
+      </section>
+    </>
+  );
 }

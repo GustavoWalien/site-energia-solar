@@ -9,6 +9,10 @@ const ROTAS = [
   "/servicos/limpeza-de-placas-solares",
   "/sobre",
   "/contato",
+  "/blog",
+  "/blog/energia-solar-vale-a-pena-2026-fio-b",
+  "/blog/placas-solares-geram-menos-na-seca",
+  "/blog/creditos-de-energia-energisa",
 ];
 
 test.describe("todas as páginas", () => {

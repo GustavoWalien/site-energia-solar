@@ -22,6 +22,7 @@
 @import "../components/contato/contato.css";
 @import "../components/contato/mapa.css";
 @import "../components/erro/nao-encontrada.css";
+@import "../components/blog/blog.css";
 
 /* static: publica todas as variáveis, mesmo as que só aparecem nos .css dos componentes */
 @theme static {
