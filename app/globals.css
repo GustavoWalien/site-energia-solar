@@ -6,6 +6,7 @@
 @import "../components/layout/aviso-conceito.css";
 @import "../components/layout/whatsapp-flutuante.css";
 @import "../components/layout/rodape.css";
+@import "../components/hero/hero.css";
 @import "../components/inicio/simulador.css";
 
 /* static: publica todas as variáveis, mesmo as que só aparecem nos .css dos componentes */

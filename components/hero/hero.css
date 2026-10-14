@@ -1,0 +1,594 @@
+/* Hero da Início: o dia em Cuiabá guiado pelo scroll (port do protótipo v4).
+   Por quadro, só transform, opacity e atributos de elementos pequenos mudam. Nada de filter animado. */
+@layer components {
+  .hero {
+    position: relative;
+    height: 450vh;
+  }
+  .hero__palco {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    height: 100svh;
+    overflow: hidden;
+    isolation: isolate;
+    contain: layout paint;
+    background: #06152b;
+  }
+  .hero__cena,
+  .hero__faixas {
+    position: absolute;
+    inset: 0;
+  }
+  .hero__cena {
+    transition: opacity 0.3s var(--ease-saida);
+  }
+  .hero__cena > * {
+    position: absolute;
+  }
+  .hero__ceu,
+  .hero__noite,
+  .hero__brilho-nascer,
+  .hero__sombra-noite,
+  .hero__nuvens,
+  .hero__camada {
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  /* céu: quatro momentos que se misturam só por opacidade */
+  .hero__ceu--madrugada {
+    background: linear-gradient(180deg, #06152b 0%, #0b2a4f 45%, #22406f 68%, #4e4c7a 84%, #8a5a72 100%);
+  }
+  .hero__ceu--nascer {
+    opacity: 0;
+    background: linear-gradient(180deg, #0f2a58 0%, #1d3f78 44%, #5b5a92 62%, #e0866f 80%, #ffc07a 100%);
+  }
+  .hero__ceu--manha {
+    opacity: 0;
+    background: linear-gradient(180deg, #3fa2db 0%, #5db7e8 30%, #9ad4f3 62%, #d9f0fa 84%, #fff0c8 100%);
+  }
+  .hero__ceu--dia {
+    opacity: 0;
+    background: linear-gradient(180deg, #8acff5 0%, #b5e2f9 45%, #dcf1fb 80%, #f1f9fd 100%);
+  }
+  .hero__brilho-nascer {
+    opacity: 0;
+    pointer-events: none;
+    background: radial-gradient(
+      ellipse 60% 50% at 96% 66%,
+      rgb(255 190 120 / 0.55) 0%,
+      rgb(255 150 100 / 0.22) 42%,
+      rgb(255 150 100 / 0) 74%
+    );
+  }
+  .hero__sombra-noite {
+    pointer-events: none;
+    background: linear-gradient(
+      180deg,
+      rgb(7 26 51 / 0) var(--n0, 46%),
+      rgb(7 26 51 / 0.62) var(--n1, 74%),
+      rgb(7 26 51 / 0.7) 100%
+    );
+  }
+  .hero__noite {
+    pointer-events: none;
+    background:
+      radial-gradient(1.5px 1.5px at 12% 18%, #fff 98%, transparent),
+      radial-gradient(1px 1px at 24% 8%, #fff 98%, transparent),
+      radial-gradient(1.5px 1.5px at 41% 22%, #fff 98%, transparent),
+      radial-gradient(1px 1px at 52% 6%, #fff 98%, transparent),
+      radial-gradient(1.5px 1.5px at 66% 28%, #fff 98%, transparent),
+      radial-gradient(1px 1px at 78% 10%, #fff 98%, transparent),
+      radial-gradient(1px 1px at 90% 21%, #fff 98%, transparent),
+      radial-gradient(1px 1px at 4% 40%, #fff 98%, transparent),
+      radial-gradient(1.5px 1.5px at 34% 38%, #fff 98%, transparent),
+      radial-gradient(1px 1px at 60% 42%, #fff 98%, transparent),
+      radial-gradient(1px 1px at 82% 36%, #fff 98%, transparent),
+      radial-gradient(1px 1px at 47% 47%, #fff 98%, transparent);
+  }
+  .hero__estrela {
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    animation: hero-cintilar 3.4s var(--ease-meio) infinite;
+  }
+  .hero__lua {
+    position: absolute;
+    left: 44%;
+    top: 9%;
+    width: 58px;
+    height: 58px;
+  }
+
+  /* camadas em SVG */
+  .hero__camada {
+    display: block;
+    overflow: visible;
+    pointer-events: none;
+  }
+  .hero__paisagem {
+    will-change: transform;
+  }
+  .hero__horas {
+    font-family: var(--font-mono);
+  }
+
+  /* sol, nuvens e tuiuiú */
+  .hero__sol {
+    left: 0;
+    top: 0;
+    width: 440px;
+    height: 440px;
+    will-change: transform;
+    pointer-events: none;
+  }
+  .hero__sol > * {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+  .hero__raios {
+    animation: hero-girar 70s linear infinite;
+  }
+  .hero__nuvens {
+    opacity: 0;
+    pointer-events: none;
+  }
+  .hero__nuvem {
+    position: absolute;
+    height: auto;
+    overflow: visible;
+    animation: hero-vagar 30s var(--ease-meio) infinite alternate;
+  }
+  .hero__nuvem--n1 {
+    left: 50%;
+    top: 9%;
+    width: clamp(120px, 12vw, 180px);
+  }
+  .hero__nuvem--n2 {
+    left: 70%;
+    top: 33%;
+    width: clamp(100px, 10vw, 150px);
+    animation-duration: 38s;
+    animation-direction: alternate-reverse;
+  }
+  .hero__nuvem--n3 {
+    left: 1%;
+    top: 47%;
+    width: clamp(90px, 8vw, 124px);
+    animation-duration: 34s;
+  }
+  .hero__nuvem-quente {
+    opacity: var(--quente, 0);
+  }
+  .hero__ave {
+    left: 0;
+    top: 0;
+    width: 160px;
+    visibility: hidden;
+    will-change: transform;
+    pointer-events: none;
+  }
+  .hero__ave svg {
+    display: block;
+    width: 100%;
+    height: auto;
+    overflow: visible;
+  }
+  .hero__asa {
+    transform-box: fill-box;
+    transform-origin: 100% 100%;
+    animation: hero-bater 0.75s var(--ease-meio) infinite;
+  }
+  .hero__asa--longe {
+    animation-delay: -0.1s;
+  }
+  .hero__ave:not(.hero__ave--voando) .hero__asa {
+    animation-play-state: paused;
+  }
+
+  /* traços pequenos que correm (herdados do protótipo aprovado) e as flores caindo */
+  .hero__cascata {
+    stroke-dasharray: 12 16;
+    animation: hero-correr 1s linear infinite;
+  }
+  .hero__fluxo {
+    stroke-dasharray: 0 18;
+    animation: hero-fluir 1.1s linear infinite;
+  }
+  .hero__vento {
+    stroke-dasharray: 14 12;
+    animation: hero-soprar 0.9s linear infinite;
+  }
+  .hero__petala {
+    animation: hero-cair var(--d, 9s) linear infinite;
+    animation-delay: var(--atraso, 0s);
+  }
+
+  /* fora da tela ou com a aba escondida, nada anima */
+  .pausado,
+  .pausado * {
+    animation-play-state: paused !important;
+  }
+  body.aba-oculta *,
+  body.aba-oculta *::before,
+  body.aba-oculta *::after {
+    animation-play-state: paused !important;
+  }
+
+  /* faixas de texto: a primeira já aparece (é o maior elemento visível) */
+  .hero__faixas {
+    z-index: 3;
+    pointer-events: none;
+  }
+  .hero__faixa {
+    position: absolute;
+    left: max(16px, calc((100vw - 1120px) / 2));
+    top: clamp(96px, 19vh, 190px);
+    opacity: 0;
+    will-change: opacity;
+  }
+  .hero__faixa--1 {
+    opacity: 1;
+  }
+  .hero__faixa--final {
+    pointer-events: auto;
+  }
+  /* quem chega pelo teclado num link escondido vê a faixa dele */
+  .hero__faixa:focus-within {
+    opacity: 1 !important;
+  }
+  .hero__faixa--escura {
+    color: var(--color-papel);
+  }
+  .hero__faixa--clara {
+    color: var(--color-profundo);
+  }
+  .hero__rotulo {
+    display: block;
+    margin-bottom: 18px;
+    font: 500 0.78rem/1 var(--font-mono);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  .hero__titulo {
+    max-width: 13ch;
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(2.4rem, 6.2vw, 5.2rem);
+    line-height: 0.98;
+    letter-spacing: -0.025em;
+  }
+  .hero__faixa--final .hero__titulo {
+    max-width: 14ch;
+  }
+  .hero__titulo em {
+    font-style: normal;
+  }
+  .hero__faixa--escura .hero__titulo em {
+    color: var(--color-ipe);
+  }
+  .hero__faixa--clara .hero__titulo em {
+    margin: 0 -0.05em;
+    padding: 0 0.05em;
+    background: linear-gradient(var(--color-ipe), var(--color-ipe)) no-repeat 0 90% / calc(var(--k, 1) * 100%) 0.3em;
+  }
+  .hero__palavra {
+    display: inline-block;
+    transform: translateY(calc(max(0, 1 - (var(--k, 1) - var(--i, 0) * 0.05) * 2.5) * 0.45em));
+    opacity: calc((var(--k, 1) - var(--i, 0) * 0.05) * 4);
+  }
+  .hero__faixa--1 .hero__palavra {
+    animation: hero-montar 0.9s var(--ease-saida) both;
+    animation-delay: calc(0.15s + var(--i) * 0.07s);
+  }
+  .hero__apoio {
+    max-width: 34ch;
+    margin-top: 18px;
+    font-size: clamp(1.05rem, 1.6vw, 1.25rem);
+  }
+  .hero__acoes {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 14px 22px;
+    margin-top: 28px;
+  }
+  .hero__link {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    font-weight: 600;
+    text-underline-offset: 4px;
+  }
+
+  /* painel de hora e geração, e a dica de rolar */
+  .hero__painel {
+    position: absolute;
+    right: max(16px, calc((100vw - 1120px) / 2));
+    bottom: 22px;
+    z-index: 3;
+    min-width: 206px;
+    padding: 12px 16px 14px;
+    border: 2.5px solid var(--color-profundo);
+    border-radius: 16px;
+    background: rgb(8 30 54 / 0.86);
+    color: var(--color-papel);
+    font-family: var(--font-mono);
+    box-shadow: 0 5px 0 rgb(6 20 40 / 0.35);
+  }
+  .hero__painel-linha {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 18px;
+  }
+  .hero__painel-linha + .hero__painel-linha {
+    margin-top: 4px;
+  }
+  .hero__painel small {
+    font-size: 0.68rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    opacity: 0.75;
+  }
+  .hero__painel strong {
+    font-size: 1.25rem;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+  }
+  .hero__painel-barra {
+    height: 6px;
+    margin-top: 10px;
+    overflow: hidden;
+    border-radius: 3px;
+    background: rgb(255 255 255 / 0.14);
+  }
+  .hero__painel-barra i {
+    display: block;
+    height: 100%;
+    background: var(--color-ipe);
+    transform: scaleX(0);
+    transform-origin: left;
+    will-change: transform;
+  }
+  .hero__dica {
+    position: absolute;
+    left: 50%;
+    bottom: 22px;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    transform: translateX(-50%);
+    color: var(--color-papel);
+    font: 500 0.75rem/1 var(--font-mono);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  .hero__dica i {
+    width: 1px;
+    height: 34px;
+    background: linear-gradient(var(--color-papel), transparent);
+    animation: hero-respirar 2.4s var(--ease-meio) infinite;
+  }
+
+  /* celular em pé: a câmera foca a casa e o texto vem para cima */
+  @media (max-aspect-ratio: 1/1) {
+    .hero__faixa {
+      top: clamp(84px, 12vh, 130px);
+      right: 16px;
+    }
+    .hero__titulo {
+      font-size: clamp(2.1rem, 9.5vw, 3.4rem);
+    }
+    .hero__apoio {
+      font-size: 1rem;
+    }
+    .hero__painel {
+      left: 12px;
+      right: 12px;
+      bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      min-width: 0;
+      padding: 8px 12px;
+    }
+    .hero__painel-linha {
+      gap: 8px;
+    }
+    .hero__painel-linha + .hero__painel-linha {
+      margin-top: 0;
+    }
+    .hero__painel strong {
+      font-size: 0.95rem;
+    }
+    .hero__painel-barra {
+      flex: 1;
+      margin-top: 0;
+    }
+    .hero__dica,
+    .hero__horas,
+    .hero__nuvem--n3 {
+      display: none;
+    }
+    .hero__lua {
+      left: auto;
+      right: 9%;
+      top: 34%;
+    }
+    .hero__nuvem--n1 {
+      left: 2%;
+      top: 55%;
+      width: 96px;
+    }
+    .hero__nuvem--n2 {
+      left: 44%;
+      top: 61%;
+      width: 84px;
+    }
+    .hero__sombra-noite {
+      --n0: 58%;
+      --n1: 82%;
+    }
+  }
+  /* celular deitado: pouca altura */
+  @media (max-height: 560px) and (min-aspect-ratio: 1/1) {
+    .hero__titulo {
+      font-size: 2.4rem;
+    }
+    .hero__apoio,
+    .hero__painel {
+      display: none;
+    }
+  }
+
+  /* movimento reduzido: o meio-dia parado numa tela (o motor escreve os mesmos valores) */
+  @media (prefers-reduced-motion: reduce) {
+    .hero {
+      height: auto;
+    }
+    .hero__palco {
+      position: relative;
+    }
+    .hero__palavra {
+      transform: none !important;
+      opacity: 1 !important;
+    }
+    .hero__ceu--dia,
+    .hero__faixa--final {
+      opacity: 1;
+    }
+    .hero__faixa--1 {
+      opacity: 0;
+    }
+    .hero__dica {
+      display: none;
+    }
+  }
+
+  /* sem JavaScript: o fim da história, o meio-dia numa tela */
+  @media (scripting: none) {
+    .hero {
+      height: auto;
+    }
+    .hero__palco {
+      position: relative;
+    }
+    .hero__ceu--dia,
+    .hero__nuvens,
+    .hero__placa-luz,
+    .hero__faixa--final {
+      opacity: 1;
+    }
+    #hero-janelas {
+      opacity: 0.92;
+    }
+    .hero__faixa--1 {
+      opacity: 0;
+    }
+    .hero__sol,
+    .hero__ave,
+    .hero__noite,
+    #hero-arco,
+    .hero__sombra-noite,
+    .hero__dica,
+    .hero__painel {
+      display: none;
+    }
+  }
+}
+
+@keyframes hero-cintilar {
+  0%,
+  100% {
+    transform: scale(0.55);
+    opacity: 0.45;
+  }
+  50% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+@keyframes hero-girar {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes hero-vagar {
+  from {
+    transform: translateX(-26px);
+  }
+  to {
+    transform: translateX(26px);
+  }
+}
+@keyframes hero-bater {
+  0%,
+  100% {
+    transform: scaleY(1);
+  }
+  50% {
+    transform: scaleY(-0.5);
+  }
+}
+@keyframes hero-correr {
+  to {
+    stroke-dashoffset: -28;
+  }
+}
+@keyframes hero-fluir {
+  to {
+    stroke-dashoffset: -36;
+  }
+}
+@keyframes hero-soprar {
+  to {
+    stroke-dashoffset: -26;
+  }
+}
+@keyframes hero-cair {
+  0% {
+    transform: translate(0, 0) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  50% {
+    transform: translate(calc(var(--vx) * 0.5), 110px) rotate(180deg);
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(var(--vx), 230px) rotate(360deg);
+    opacity: 0;
+  }
+}
+@keyframes hero-montar {
+  from {
+    transform: translateY(0.5em);
+    opacity: 0;
+  }
+  to {
+    transform: none;
+    opacity: 1;
+  }
+}
+@keyframes hero-respirar {
+  0%,
+  100% {
+    transform: scaleY(0.4);
+    transform-origin: top;
+  }
+  50% {
+    transform: scaleY(1);
+    transform-origin: top;
+  }
+}

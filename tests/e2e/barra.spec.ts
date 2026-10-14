@@ -19,7 +19,7 @@ test.describe("barra do topo", () => {
     for (const rotulo of ["Serviços", "Sobre", "Blog", "Contato"]) {
       await expect(nav.getByRole("link", { name: rotulo })).toBeVisible();
     }
-    const chamada = page.getByRole("link", { name: "Peça seu orçamento" });
+    const chamada = page.getByRole("banner").getByRole("link", { name: "Peça seu orçamento" });
     await expect(chamada).toHaveAttribute("href", /^https:\/\/wa\.me\/5565981222210\?text=/);
     await expect(chamada).toHaveAttribute("data-aviso", "");
   });

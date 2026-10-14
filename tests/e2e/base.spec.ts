@@ -31,6 +31,8 @@ test("sem rolagem lateral e nada saindo pela direita da tela", async ({ page }) 
   // o body tem overflow-x: clip e a barra é fixa, então o scrollWidth não vê tudo: mede cada elemento visível
   const vazados = await page.evaluate(() =>
     [...document.querySelectorAll("body *")]
+      // a cena do hero passa da borda de propósito e o palco a recorta (overflow: hidden)
+      .filter((el) => !el.closest("#hero-palco"))
       .filter((el) => el.checkVisibility() && el.getBoundingClientRect().right > window.innerWidth + 0.5)
       .map((el) => el.tagName + (el.className && typeof el.className === "string" ? "." + el.className : "")),
   );
