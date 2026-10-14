@@ -472,6 +472,15 @@
     }
   }
 
+  /* sem JavaScript e em pé: sem o motor, o enquadramento do retrato não vem; a cena encolhe a partir do canto
+     de baixo à direita para a casa caber (ela ocupa as últimas ~526 unidades da cena; 0,62 cabe até a proporção 0,4) */
+  @media (scripting: none) and (max-aspect-ratio: 1/1) {
+    .hero__camada {
+      transform: scale(0.62);
+      transform-origin: 100% 100%;
+    }
+  }
+
   /* sem JavaScript: o fim da história, o meio-dia numa tela */
   @media (scripting: none) {
     .hero {

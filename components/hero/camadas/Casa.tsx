@@ -30,6 +30,7 @@ function Placas() {
           key={p.id}
           data-placa-faisca={p.ordem}
           href="#hero-estrelinha"
+          transform={`translate(${p.fx} ${p.fy}) scale(0.4)`}
           fill="#FFF6D6"
           strokeWidth="3"
           opacity="0"

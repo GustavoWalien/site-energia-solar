@@ -40,6 +40,13 @@ test.describe("hero sem JavaScript", () => {
     await expect(page.locator(".hero__ceu--dia")).toHaveCSS("opacity", "1");
     await expect(page.locator(".hero__faixa--1")).toHaveCSS("opacity", "0");
   });
+
+  test("o HTML do servidor já põe a casa inteira dentro da tela (faíscas no lugar, antes do motor)", async ({ page }) => {
+    await page.goto("/");
+    const casa = (await page.locator("#hero-casa").boundingBox())!;
+    expect(casa.x).toBeGreaterThanOrEqual(0);
+    expect(casa.x + casa.width).toBeLessThanOrEqual(page.viewportSize()!.width);
+  });
 });
 
 test.describe("hero com o motor", () => {
